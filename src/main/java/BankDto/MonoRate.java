@@ -4,9 +4,9 @@ import java.math.BigDecimal;
 
 public class MonoRate implements   Bank{
 
-    long currencyCodeA;
-    long currencyCodeB;
-    long data;
+    private long currencyCodeA;
+   private  long currencyCodeB;
+    private long date;
 
 
 
@@ -14,18 +14,18 @@ public class MonoRate implements   Bank{
 
     }
 
-    public MonoRate(long currencyCodeA, long currencyCodeB, long data) {
+    public MonoRate(long currencyCodeA, long currencyCodeB, long date) {
         this.currencyCodeA = currencyCodeA;
         this.currencyCodeB = currencyCodeB;
-        this.data = data;
+        this.date = date;
     }
 
-    public long getData() {
-        return data;
+    public long getDate() {
+        return date;
     }
 
-    public void setData(long data) {
-        this.data = data;
+    public void setDate(long date) {
+        this.date = date;
     }
 
     public long getCurrencyCodeA() {
