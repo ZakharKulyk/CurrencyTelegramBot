@@ -1,22 +1,20 @@
 package UserConfiguration;
 
-import BankDto.Bank;
-import BankDto.MonoRate;
-import BankDto.NBURate;
-import BankDto.PrivatRate;
+import dto.Bank;
+
+
 
 import java.math.BigDecimal;
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserConfig {
-    MonoRate monoRate = new MonoRate();
-    NBURate nbuRate = new NBURate();
-    PrivatRate privatRate = new PrivatRate();
 
+    List<Bank> currentBanks = new ArrayList<>();
+    List<BigDecimal> currentCurrencies = new ArrayList<>();
 
-    HashMap<Bank, BigDecimal>bankCurrencyMap  = new HashMap<>();
+    public UserConfig() {
 
-    public UserConfig(){
-        bankCurrencyMap.put(privatRate,privatRate.setDollar());
     }
+
 }

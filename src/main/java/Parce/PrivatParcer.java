@@ -1,6 +1,6 @@
 package Parce;
 
-import BankDto.PrivatRate;
+
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dto.PrivatDto;
