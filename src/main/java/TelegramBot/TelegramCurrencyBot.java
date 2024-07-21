@@ -93,6 +93,7 @@ public class TelegramCurrencyBot extends TelegramLongPollingBot {
             if (callbackQuery.getData().equals(DIGITS_AFTER_DECIMAL2)) {
                 if (userConfig.getDecimalPlaces().contains("2")) {
                     userConfig.removeDigitsAfterDecimalPlace("2");
+                    userConfig.setDecimal(1);
                 } else {
                     userConfig.addDigitsAfterDecimalPlace("2");
                     userConfig.setDecimal(2);
@@ -101,6 +102,7 @@ public class TelegramCurrencyBot extends TelegramLongPollingBot {
             } else if (callbackQuery.getData().equals(DIGITS_AFTER_DECIMAL3)) {
                 if (userConfig.getDecimalPlaces().contains("3")) {
                     userConfig.removeDigitsAfterDecimalPlace("3");
+                    userConfig.setDecimal(1);
                 } else {
                     userConfig.addDigitsAfterDecimalPlace("3");
                     userConfig.setDecimal(3);
@@ -109,6 +111,7 @@ public class TelegramCurrencyBot extends TelegramLongPollingBot {
             } else if (callbackQuery.getData().equals(DIGITS_AFTER_DECIMAL4)) {
                 if (userConfig.getDecimalPlaces().contains("4")) {
                     userConfig.removeDigitsAfterDecimalPlace("4");
+                    userConfig.setDecimal(1);
                 } else {
                     userConfig.addDigitsAfterDecimalPlace("4");
                     userConfig.setDecimal(4);
@@ -126,12 +129,12 @@ public class TelegramCurrencyBot extends TelegramLongPollingBot {
 
     @Override
     public String getBotUsername() {
-        return null;
+        return "@Dddrcresbot";
     }
 
     @Override
     public String getBotToken() {
-        return null;
+        return "7050193955:AAHqGVe-jZi2zT5sIobN0yPvwzNg-v2s0zc";
     }
 
     private static boolean IsMessagePresent(Update update) {
