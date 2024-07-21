@@ -1,9 +1,8 @@
 package Parce;
 
-import BankDto.PrivatRate;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import dto.PrivatDto;
+import BankParceDto.PrivatDto;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -11,7 +10,6 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 
-import java.net.http.HttpClient;
 import java.util.ArrayList;
 import java.util.List;
 

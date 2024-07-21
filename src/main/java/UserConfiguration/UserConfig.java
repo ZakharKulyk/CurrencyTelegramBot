@@ -1,22 +1,32 @@
 package UserConfiguration;
 
-import BankDto.Bank;
-import BankDto.MonoRate;
-import BankDto.NBURate;
-import BankDto.PrivatRate;
+
+import BankParceDto.BankDto;
+import BankParceDto.MonoDto;
+import BankParceDto.NbuDto;
+import BankParceDto.PrivatDto;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
 
 public class UserConfig {
-    MonoRate monoRate = new MonoRate();
-    NBURate nbuRate = new NBURate();
-    PrivatRate privatRate = new PrivatRate();
 
+    private static int decimal ;
 
-    HashMap<Bank, BigDecimal>bankCurrencyMap  = new HashMap<>();
+    HashMap<BankDto, BigDecimal>bankCurrencyMap  = new HashMap<>();
 
     public UserConfig(){
-        bankCurrencyMap.put(privatRate,privatRate.setDollar());
+
     }
+
+    public int getDecimal() {
+        return decimal;
+    }
+    public void setDecimal(int decimal) {
+        this.decimal = decimal;
+    }
+
 }
