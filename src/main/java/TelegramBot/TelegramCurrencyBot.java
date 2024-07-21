@@ -99,6 +99,8 @@ public class TelegramCurrencyBot extends TelegramLongPollingBot {
                     userConfig.setDecimal(2);
                 }
                 message.setText(CreatingKeyboards.stringWrapper("Значення встановлено: 2 знаки після коми"));
+                message.setText(CreatingKeyboards.stringWrapper("Налаштування"));
+                message.setReplyMarkup(keyboards.createSettingsKeyboard());
             } else if (callbackQuery.getData().equals(DIGITS_AFTER_DECIMAL3)) {
                 if (userConfig.getDecimalPlaces().contains("3")) {
                     userConfig.removeDigitsAfterDecimalPlace("3");
@@ -108,6 +110,8 @@ public class TelegramCurrencyBot extends TelegramLongPollingBot {
                     userConfig.setDecimal(3);
                 }
                 message.setText(CreatingKeyboards.stringWrapper("Значення встановлено: 3 знаки після коми"));
+                message.setText(CreatingKeyboards.stringWrapper("Налаштування"));
+                message.setReplyMarkup(keyboards.createSettingsKeyboard());
             } else if (callbackQuery.getData().equals(DIGITS_AFTER_DECIMAL4)) {
                 if (userConfig.getDecimalPlaces().contains("4")) {
                     userConfig.removeDigitsAfterDecimalPlace("4");
@@ -117,6 +121,8 @@ public class TelegramCurrencyBot extends TelegramLongPollingBot {
                     userConfig.setDecimal(4);
                 }
                 message.setText(CreatingKeyboards.stringWrapper("Значення встановлено: 4 знаки після коми"));
+                message.setText(CreatingKeyboards.stringWrapper("Налаштування"));
+                message.setReplyMarkup(keyboards.createSettingsKeyboard());
             }
 
             try {
