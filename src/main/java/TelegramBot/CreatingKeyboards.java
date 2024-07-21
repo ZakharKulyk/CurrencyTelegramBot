@@ -30,6 +30,89 @@ public class CreatingKeyboards {
         inlineKeyboardMarkup.setKeyboard(allButtons);
         return inlineKeyboardMarkup;
     }
+    public  InlineKeyboardMarkup createTimeNotificationKeyboard(){
+        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
+
+        List<List<InlineKeyboardButton>>rows = new ArrayList<>();
+
+        InlineKeyboardButton nine = new InlineKeyboardButton();
+        nine.setText("9:00");
+        nine.setCallbackData("9:00");
+
+
+        InlineKeyboardButton ten = new InlineKeyboardButton();
+        ten.setText("10:00");
+        ten.setCallbackData("10:00");
+
+        InlineKeyboardButton eleven = new InlineKeyboardButton();
+        eleven.setText("11:00");
+        eleven.setCallbackData("11:00");
+
+        InlineKeyboardButton twelve = new InlineKeyboardButton();
+        twelve.setText("12:00");
+        ten.setCallbackData("12:00");
+
+        InlineKeyboardButton thirteen  = new InlineKeyboardButton();
+        thirteen.setText("13:00");
+        thirteen.setCallbackData("13:00");
+
+        InlineKeyboardButton fourteen  = new InlineKeyboardButton();
+        fourteen.setText("14:00");
+        fourteen.setCallbackData("14:00");
+
+        InlineKeyboardButton fifteen = new InlineKeyboardButton();
+        fifteen.setText("15:00");
+        fifteen.setCallbackData("15:00");
+
+        InlineKeyboardButton sixteen = new InlineKeyboardButton();
+        sixteen.setText("16:00");
+        sixteen.setCallbackData("16:00");
+
+        InlineKeyboardButton seventeen = new InlineKeyboardButton();
+        seventeen.setText("17:00");
+        seventeen.setCallbackData("17:00");
+
+        InlineKeyboardButton eighteen =  new InlineKeyboardButton();
+        eighteen.setText("18:00");
+        eighteen.setCallbackData("18:00");
+
+        InlineKeyboardButton turnOff = new InlineKeyboardButton();
+        turnOff.setText(stringWrapper("Вимкнути повідомлення0"));
+        turnOff.setCallbackData("turnOffNotifications");
+
+        List<InlineKeyboardButton> firstRow = new ArrayList<>();
+        List<InlineKeyboardButton>secondRow = new ArrayList<>();
+        List<InlineKeyboardButton>thirdRow = new ArrayList<>();
+        List<InlineKeyboardButton>fourthRow = new ArrayList<>();
+
+        firstRow.add(nine);
+        firstRow.add(ten);
+        firstRow.add(eleven);
+
+        secondRow.add(twelve);
+        secondRow.add(thirteen);
+        secondRow.add(fourteen);
+
+        thirdRow.add(fifteen);
+        thirdRow.add(sixteen);
+        thirdRow.add(seventeen);
+
+        fourthRow.add(eighteen);
+        fourthRow.add(turnOff);
+
+        rows.add(firstRow);
+        rows.add(secondRow);
+        rows.add(thirdRow);
+        rows.add(fourthRow);
+
+        inlineKeyboardMarkup.setKeyboard(rows);
+
+        return inlineKeyboardMarkup;
+
+    }
+
+
+
     public InlineKeyboardMarkup createSettingsKeyboard() {
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
 
