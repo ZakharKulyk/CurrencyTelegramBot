@@ -50,7 +50,7 @@ public class CreatingKeyboards {
 
         InlineKeyboardButton twelve = new InlineKeyboardButton();
         twelve.setText("12:00");
-        ten.setCallbackData("12:00");
+        twelve.setCallbackData("12:00");
 
         InlineKeyboardButton thirteen  = new InlineKeyboardButton();
         thirteen.setText("13:00");
@@ -77,7 +77,7 @@ public class CreatingKeyboards {
         eighteen.setCallbackData("18:00");
 
         InlineKeyboardButton turnOff = new InlineKeyboardButton();
-        turnOff.setText(stringWrapper("Вимкнути повідомлення0"));
+        turnOff.setText(stringWrapper("Вимкнути повідомлення"));
         turnOff.setCallbackData("turnOffNotifications");
 
         List<InlineKeyboardButton> firstRow = new ArrayList<>();

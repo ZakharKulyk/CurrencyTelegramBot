@@ -39,7 +39,9 @@ public class TelegramCurrencyBot extends TelegramLongPollingBot {
             }
 
             if(callbackQuery.getData().equals("NotificationTime")){
-
+                message.setText(CreatingKeyboards.stringWrapper("Оберіть час для оповіщення "));
+                message.setReplyMarkup(keyboards.createTimeNotificationKeyboard());
+                message.setChatId(chatId);
             }
 
             try {
