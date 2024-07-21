@@ -6,9 +6,12 @@ import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 
+import java.time.LocalTime;
 import java.util.HashMap;
+import java.util.concurrent.TimeUnit;
 
 public class TelegramCurrencyBot extends TelegramLongPollingBot {
 
@@ -32,6 +35,7 @@ public class TelegramCurrencyBot extends TelegramLongPollingBot {
             CallbackQuery callbackQuery = update.getCallbackQuery();
             String chatId = callbackQuery.getMessage().getChatId().toString();
             message.setChatId(chatId);
+            dataBase.put(chatId,new UserConfig());
 
             if (callbackQuery.getData().equals("Settings")){
                 message.setText(CreatingKeyboards.stringWrapper("Налаштування"));
@@ -39,9 +43,28 @@ public class TelegramCurrencyBot extends TelegramLongPollingBot {
             }
 
             if(callbackQuery.getData().equals("NotificationTime")){
-                message.setText(CreatingKeyboards.stringWrapper("Оберіть час для оповіщення "));
-                message.setReplyMarkup(keyboards.createTimeNotificationKeyboard());
                 message.setChatId(chatId);
+                message.setText(CreatingKeyboards.stringWrapper("Оберіть час для оповіщення "));
+                message.setReplyMarkup(keyboards.createTimeNotificationKeyboard(dataBase.get(chatId)));
+
+            }
+            if (callbackQuery.getData().equals("9:00")){
+                UserConfig userConfig = dataBase.get(chatId);
+                message.setChatId(chatId);
+                message.setText(CreatingKeyboards.stringWrapper("Актуальний курс буде надіслано о 9:00"));
+                userConfig.setTimeForNotification(LocalTime.of(14,27));
+                long delay = userConfig.calculateDelay();
+                userConfig.getService().scheduleAtFixedRate(()->{
+                    SendMessage sendMessage = new SendMessage();
+                    sendMessage.setText(CreatingKeyboards.stringWrapper("тут буде курс валюти"));
+                    sendMessage.setChatId(chatId);
+                    try {
+                        execute(sendMessage);
+                    } catch (TelegramApiException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                },delay, TimeUnit.DAYS.toSeconds(1),TimeUnit.SECONDS);
             }
 
             try {

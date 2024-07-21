@@ -1,5 +1,7 @@
 package TelegramBot;
 
+import UserConfiguration.UserConfig;
+import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
@@ -30,9 +32,8 @@ public class CreatingKeyboards {
         inlineKeyboardMarkup.setKeyboard(allButtons);
         return inlineKeyboardMarkup;
     }
-    public  InlineKeyboardMarkup createTimeNotificationKeyboard(){
+    public  InlineKeyboardMarkup createTimeNotificationKeyboard(UserConfig userConfig){
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
-
         List<List<InlineKeyboardButton>>rows = new ArrayList<>();
 
         InlineKeyboardButton nine = new InlineKeyboardButton();
@@ -110,6 +111,7 @@ public class CreatingKeyboards {
         return inlineKeyboardMarkup;
 
     }
+
 
 
 
