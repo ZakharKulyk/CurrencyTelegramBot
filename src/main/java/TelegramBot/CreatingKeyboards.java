@@ -114,6 +114,37 @@ public class CreatingKeyboards {
         inlineKeyboardMarkup.setKeyboard(allButtons);
         return inlineKeyboardMarkup;
     }
+    public InlineKeyboardMarkup createDecimalPlacesKeyboard(UserConfig userConfig) {
+        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
+
+        InlineKeyboardButton digitsAfterDecimalButtonTwo = new InlineKeyboardButton();
+        digitsAfterDecimalButtonTwo.setText(isContainDecimalPlaces(userConfig.getDecimalPlaces(), "2"));
+        digitsAfterDecimalButtonTwo.setCallbackData(DIGITS_AFTER_DECIMAL2);
+
+        InlineKeyboardButton digitsAfterDecimalButtonThree = new InlineKeyboardButton();
+        digitsAfterDecimalButtonThree.setText(isContainDecimalPlaces(userConfig.getDecimalPlaces(), "3"));
+        digitsAfterDecimalButtonThree.setCallbackData(DIGITS_AFTER_DECIMAL3);
+
+        InlineKeyboardButton digitsAfterDecimalButtonFour = new InlineKeyboardButton();
+        digitsAfterDecimalButtonFour.setText(isContainDecimalPlaces(userConfig.getDecimalPlaces(), "4"));
+        digitsAfterDecimalButtonFour.setCallbackData(DIGITS_AFTER_DECIMAL4);
+
+        List<InlineKeyboardButton> buttonTwo = new ArrayList<>();
+        buttonTwo.add(digitsAfterDecimalButtonTwo);
+        List<InlineKeyboardButton> buttonThree = new ArrayList<>();
+        buttonThree.add(digitsAfterDecimalButtonThree);
+        List<InlineKeyboardButton> buttonFour = new ArrayList<>();
+        buttonFour.add(digitsAfterDecimalButtonFour);
+
+        List<List<InlineKeyboardButton>> allButton = new ArrayList<>();
+        allButton.add(buttonTwo);
+        allButton.add(buttonThree);
+        allButton.add(buttonFour);
+
+        inlineKeyboardMarkup.setKeyboard(allButton);
+        return inlineKeyboardMarkup;
+    }
+
 
     public static String stringWrapper(String str){
         String result = "";
@@ -124,6 +155,13 @@ public class CreatingKeyboards {
         }
         return result;
     }
+    public static String isContainDecimalPlaces(List<String> decimalPlaces, String word) {
+        if (decimalPlaces.contains(word)) {
+            return stringWrapper("✅") + word;
+        }
+        return word;
+    }
+
     public static String isContain(List<String> bankList, String word){
         if (bankList.contains(word)){
             return stringWrapper("✅") + word;
