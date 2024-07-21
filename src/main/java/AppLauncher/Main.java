@@ -1,19 +1,17 @@
 package AppLauncher;
 
-import BankDto.MonoRate;
-import Parce.MonoParcer;
-import Parce.NBUParcer;
-import Parce.PrivatParcer;
-import dto.MonoDto;
-import dto.PrivatDto;
+import TelegramBot.TelegramCurrencyBot;
+import org.telegram.telegrambots.meta.TelegramBotsApi;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
 public class Main {
     public static void main(String[] args) {
-        /*MonoParcer mono = new MonoParcer();
-        System.out.println(mono.getRequest());
-        NBUParcer nbuParcer = new NBUParcer();
-        System.out.println(nbuParcer.getRequest())*/;
-        PrivatParcer privat = new PrivatParcer();
-        System.out.println(privat.getRequest());
+        try {
+            TelegramBotsApi telegramBotsApi = new TelegramBotsApi(DefaultBotSession.class);
+            telegramBotsApi.registerBot(new TelegramCurrencyBot());
+        } catch (TelegramApiException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
