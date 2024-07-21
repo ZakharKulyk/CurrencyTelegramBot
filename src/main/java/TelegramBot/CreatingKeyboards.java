@@ -79,6 +79,36 @@ public class CreatingKeyboards {
         return inlineKeyboardMarkup;
     }
 
+    public InlineKeyboardMarkup createDecimalPlacesKeyboard()
+    {
+        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
+
+        InlineKeyboardButton digitsAfterDecimalButtonTwo = new InlineKeyboardButton();
+        digitsAfterDecimalButtonTwo.setText("2");
+        digitsAfterDecimalButtonTwo.setCallbackData("DigitsAfterDecimal2");
+
+        InlineKeyboardButton digitsAfterDecimalButtonThree = new InlineKeyboardButton();
+        digitsAfterDecimalButtonThree.setText("3");
+        digitsAfterDecimalButtonThree.setCallbackData("DigitsAfterDecimal3");
+
+        InlineKeyboardButton digitsAfterDecimalButtonFour = new InlineKeyboardButton();
+        digitsAfterDecimalButtonFour.setText("4");
+        digitsAfterDecimalButtonFour.setCallbackData("DigitsAfterDecimal4");
+
+        List<InlineKeyboardButton> buttonTwo = new ArrayList<>();
+        buttonTwo.add(digitsAfterDecimalButtonTwo);
+        List<InlineKeyboardButton> buttonThree = new ArrayList<>();
+        buttonThree.add(digitsAfterDecimalButtonThree);
+        List<InlineKeyboardButton> buttonFour = new ArrayList<>();
+        buttonFour.add(digitsAfterDecimalButtonFour);
+        List<List<InlineKeyboardButton>> allButton = new ArrayList<>();
+        allButton.add(buttonTwo);
+        allButton.add(buttonThree);
+        allButton.add(buttonFour);
+        inlineKeyboardMarkup.setKeyboard(allButton);
+        return  inlineKeyboardMarkup;
+    }
+
     public static String stringWrapper(String str){
         String result = "";
         try {
