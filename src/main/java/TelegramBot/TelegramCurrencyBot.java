@@ -10,6 +10,8 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.util.HashMap;
 
+import static Constants.ConstansDev.*;
+
 public class TelegramCurrencyBot extends TelegramLongPollingBot {
 
     HashMap<String, UserConfig>dataBase = new HashMap<>();
@@ -22,6 +24,9 @@ public class TelegramCurrencyBot extends TelegramLongPollingBot {
             message.setChatId(chatId);
             message.setText(CreatingKeyboards.stringWrapper("Ласкаво просимо. Цей бот допоможе відслідковувати актуальні курси валют"));
             message.setReplyMarkup(keyboards.createMainKeyboard());
+            if (!dataBase.containsKey(chatId)) {
+                dataBase.put(chatId, new UserConfig());
+            }
 
             try {
                 execute(message);
@@ -32,8 +37,40 @@ public class TelegramCurrencyBot extends TelegramLongPollingBot {
             CallbackQuery callbackQuery = update.getCallbackQuery();
             String chatId = callbackQuery.getMessage().getChatId().toString();
             message.setChatId(chatId);
+            UserConfig userConfig = dataBase.get(chatId);
 
-            if (callbackQuery.getData().equals("Settings")){
+            if (callbackQuery.getData().equals(SETTINGS)){
+                message.setText(CreatingKeyboards.stringWrapper("Налаштування"));
+                message.setReplyMarkup(keyboards.createSettingsKeyboard());
+            }
+            if (callbackQuery.getData().equals(BANK)){
+                message.setText(CreatingKeyboards.stringWrapper("Оберіть банк: "));
+                message.setReplyMarkup(keyboards.bankKeyboard(userConfig));
+            }
+            if (callbackQuery.getData().equals(MONO_BANK)){
+                if (userConfig.getBanks().contains(MONO_BANK)){
+                    userConfig.removeBank(MONO_BANK);
+                }else {
+                    userConfig.addBank(MONO_BANK);
+                }
+                message.setText(CreatingKeyboards.stringWrapper("Налаштування"));
+                message.setReplyMarkup(keyboards.createSettingsKeyboard());
+            }
+            if (callbackQuery.getData().equals(PRIVAT_BANK)){
+                if (userConfig.getBanks().contains(PRIVAT_BANK)){
+                    userConfig.removeBank(PRIVAT_BANK);
+                }else {
+                    userConfig.addBank(PRIVAT_BANK);
+                }
+                message.setText(CreatingKeyboards.stringWrapper("Налаштування"));
+                message.setReplyMarkup(keyboards.createSettingsKeyboard());
+            }
+            if (callbackQuery.getData().equals(NBU_CALLBACK_DATA)){
+                if (userConfig.getBanks().contains(CreatingKeyboards.stringWrapper(NBU_BANK))){
+                    userConfig.removeBank(CreatingKeyboards.stringWrapper(NBU_BANK));
+                }else {
+                    userConfig.addBank(CreatingKeyboards.stringWrapper(NBU_BANK));
+                }
                 message.setText(CreatingKeyboards.stringWrapper("Налаштування"));
                 message.setReplyMarkup(keyboards.createSettingsKeyboard());
             }
