@@ -2,23 +2,23 @@ package UserConfiguration;
 
 import dto.Bank;
 
-
 import java.math.BigDecimal;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 public class UserConfig {
     LocalTime currentTime;
     LocalTime timeForNotification;
-    ScheduledExecutorService service =new ScheduledThreadPoolExecutor(1);
+    ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
+    ScheduledFuture<?> scheduledFuture;
 
-    List<Bank> currentBanks = new ArrayList<>();
+    List<String> currentBanks = new ArrayList<>();
     List<BigDecimal> currentCurrencies = new ArrayList<>();
-
 
     public LocalTime getCurrentTime() {
         return currentTime;
@@ -44,19 +44,25 @@ public class UserConfig {
         this.service = service;
     }
 
-    public UserConfig() {
-
-    }
+    public UserConfig() {}
 
     public long calculateDelay() {
         currentTime = LocalTime.now();
         long delay = timeForNotification.toSecondOfDay() - currentTime.toSecondOfDay();
-        if(delay<0){
+        if (delay < 0) {
             delay += TimeUnit.DAYS.toSeconds(1);
         }
         return delay;
     }
 
+    public void cancelPreviousNotification() {
+        if (scheduledFuture != null && !scheduledFuture.isDone()) {
+            scheduledFuture.cancel(false);
+        }
+    }
 
-
+    public void scheduleNotification(Runnable task, long delay, long period, TimeUnit unit) {
+        cancelPreviousNotification();
+        scheduledFuture = service.scheduleAtFixedRate(task, delay, period, unit);
+    }
 }

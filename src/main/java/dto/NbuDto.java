@@ -2,20 +2,50 @@ package dto;
 
 import java.math.BigDecimal;
 
-public record NbuDto(Long r030, String txt, BigDecimal rate , String cc , String exchangedate)implements Bank{
+public class NbuDto implements  Bank{
+    Long r030;
+    String txt;
+    BigDecimal rate;
+    String cc;
+    String exchangedate;
 
-    @Override
-    public BigDecimal setDollar() {
-        return null;
+    public Long getR030() {
+        return r030;
     }
 
-    @Override
-    public BigDecimal setEuro() {
-        return null;
+    public void setR030(Long r030) {
+        this.r030 = r030;
     }
 
-    @Override
-    public String setName() {
-        return null;
+    public String getTxt() {
+        return txt;
+    }
+
+    public void setTxt(String txt) {
+        this.txt = txt;
+    }
+
+    public BigDecimal getRate() {
+        return rate;
+    }
+
+    public void setRate(BigDecimal rate) {
+        this.rate = rate;
+    }
+
+    public String getCc() {
+        return cc;
+    }
+
+    public void setCc(String cc) {
+        this.cc = cc;
+    }
+
+    public String getExchangedate() {
+        return exchangedate;
+    }
+
+    public void setExchangedate(String exchangedate) {
+        this.exchangedate = exchangedate;
     }
 }

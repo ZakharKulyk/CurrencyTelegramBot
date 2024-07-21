@@ -15,46 +15,57 @@ import java.util.concurrent.TimeUnit;
 
 public class TelegramCurrencyBot extends TelegramLongPollingBot {
 
-    HashMap<String, UserConfig>dataBase = new HashMap<>();
+    HashMap<String, UserConfig> dataBase = new HashMap<>();
+
     @Override
     public void onUpdateReceived(Update update) {
         SendMessage message = new SendMessage();
         CreatingKeyboards keyboards = new CreatingKeyboards();
-        if (IsMessagePresent(update) && update.getMessage().getText().equalsIgnoreCase("/start")){
+        if (IsMessagePresent(update) && update.getMessage().getText().equalsIgnoreCase("/start")) {
             String chatId = update.getMessage().getChatId().toString();
             message.setChatId(chatId);
             message.setText(CreatingKeyboards.stringWrapper("Ласкаво просимо. Цей бот допоможе відслідковувати актуальні курси валют"));
             message.setReplyMarkup(keyboards.createMainKeyboard());
+            if (!dataBase.containsKey(chatId)) {
+                dataBase.put(chatId, new UserConfig());
+            }
 
             try {
                 execute(message);
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }else if (update.hasCallbackQuery()) {
+        } else if (update.hasCallbackQuery()) {
             CallbackQuery callbackQuery = update.getCallbackQuery();
             String chatId = callbackQuery.getMessage().getChatId().toString();
             message.setChatId(chatId);
-            dataBase.put(chatId,new UserConfig());
 
-            if (callbackQuery.getData().equals("Settings")){
+            if (callbackQuery.getData().equals("Settings")) {
                 message.setText(CreatingKeyboards.stringWrapper("Налаштування"));
                 message.setReplyMarkup(keyboards.createSettingsKeyboard());
             }
 
-            if(callbackQuery.getData().equals("NotificationTime")){
+            if (callbackQuery.getData().equals("NotificationTime")) {
                 message.setChatId(chatId);
                 message.setText(CreatingKeyboards.stringWrapper("Оберіть час для оповіщення "));
                 message.setReplyMarkup(keyboards.createTimeNotificationKeyboard(dataBase.get(chatId)));
 
+
+
             }
-            if (callbackQuery.getData().equals("9:00")){
+            if(callbackQuery.getData().equals("9:00")){
                 UserConfig userConfig = dataBase.get(chatId);
-                message.setChatId(chatId);
-                message.setText(CreatingKeyboards.stringWrapper("Актуальний курс буде надіслано о 9:00"));
-                userConfig.setTimeForNotification(LocalTime.of(14,27));
-                long delay = userConfig.calculateDelay();
-                userConfig.getService().scheduleAtFixedRate(()->{
+                LocalTime newTime;
+                long delay;
+                newTime = LocalTime.of(19, 14);
+
+
+                userConfig.setTimeForNotification(newTime);
+                delay = userConfig.calculateDelay();
+
+                message.setText(CreatingKeyboards.stringWrapper("Актуальний курс буде надіслано о " + newTime.toString()));
+
+                Runnable task = () -> {
                     SendMessage sendMessage = new SendMessage();
                     sendMessage.setText(CreatingKeyboards.stringWrapper("тут буде курс валюти"));
                     sendMessage.setChatId(chatId);
@@ -63,10 +74,37 @@ public class TelegramCurrencyBot extends TelegramLongPollingBot {
                     } catch (TelegramApiException e) {
                         throw new RuntimeException(e);
                     }
+                };
 
-                },delay, TimeUnit.DAYS.toSeconds(1),TimeUnit.SECONDS);
+                userConfig.scheduleNotification(task, delay, TimeUnit.DAYS.toSeconds(1), TimeUnit.SECONDS);
+
             }
+            if(callbackQuery.getData().equals("10:00")){
+                UserConfig userConfig = dataBase.get(chatId);
+                LocalTime newTime;
+                long delay;
+                newTime = LocalTime.of(19, 15);
 
+
+                userConfig.setTimeForNotification(newTime);
+                delay = userConfig.calculateDelay();
+
+                message.setText(CreatingKeyboards.stringWrapper("Актуальний курс буде надіслано о " + newTime.toString()));
+
+                Runnable task = () -> {
+                    SendMessage sendMessage = new SendMessage();
+                    sendMessage.setText(CreatingKeyboards.stringWrapper("тут буде курс валюти"));
+                    sendMessage.setChatId(chatId);
+                    try {
+                        execute(sendMessage);
+                    } catch (TelegramApiException e) {
+                        throw new RuntimeException(e);
+                    }
+                };
+
+                userConfig.scheduleNotification(task, delay, TimeUnit.DAYS.toSeconds(1), TimeUnit.SECONDS);
+
+            }
             try {
                 execute(message);
             } catch (Exception e) {
@@ -75,17 +113,18 @@ public class TelegramCurrencyBot extends TelegramLongPollingBot {
         }
     }
 
-    @Override
-    public String getBotUsername() {
-        return "https://t.me/JavaCurrency123Bot";
-    }
 
-    @Override
-    public String getBotToken() {
-        return "7434436728:AAGSSBb--F8Q9TZwkh1Ntdw7gWpEmXuX0Ps";
-    }
+@Override
+public String getBotUsername() {
+    return "https://t.me/JavaCurrency123Bot";
+}
 
-    private static boolean IsMessagePresent(Update update) {
-        return update.hasMessage() && update.getMessage().hasText();
-    }
+@Override
+public String getBotToken() {
+    return "7434436728:AAGSSBb--F8Q9TZwkh1Ntdw7gWpEmXuX0Ps";
+}
+
+private static boolean IsMessagePresent(Update update) {
+    return update.hasMessage() && update.getMessage().hasText();
+}
 }

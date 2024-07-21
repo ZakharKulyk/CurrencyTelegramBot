@@ -1,9 +1,16 @@
 package dto;
-
 import java.math.BigDecimal;
 
-public record MonoDto(Long currencyCodeA , Long currencyCodeB , Long date,
-                      BigDecimal rateSell , BigDecimal rateBuy, BigDecimal rateCross)implements Bank {
+public class MonoDto implements  Bank{
+
+    Long currencyCodeA;
+    Long currencyCodeB;
+    Long date;
+    BigDecimal rateSell;
+    BigDecimal rateBuy;
+    BigDecimal rateCross;
+
+
     public long getCurrencyCodeA() {
         return currencyCodeA;
     }
@@ -14,18 +21,40 @@ public record MonoDto(Long currencyCodeA , Long currencyCodeB , Long date,
         return date;
     }
 
-    @Override
-    public BigDecimal setDollar() {
-        return null;
+    public void setCurrencyCodeA(Long currencyCodeA) {
+        this.currencyCodeA = currencyCodeA;
     }
 
-    @Override
-    public BigDecimal setEuro() {
-        return null;
+    public void setCurrencyCodeB(Long currencyCodeB) {
+        this.currencyCodeB = currencyCodeB;
     }
 
-    @Override
-    public String setName() {
-        return null;
+    public void setDate(Long date) {
+        this.date = date;
+    }
+
+    public BigDecimal getRateSell() {
+        return rateSell;
+    }
+
+    public void setRateSell(BigDecimal rateSell) {
+        this.rateSell = rateSell;
+    }
+
+    public BigDecimal getRateBuy() {
+        return rateBuy;
+    }
+
+    public void setRateBuy(BigDecimal rateBuy) {
+        this.rateBuy = rateBuy;
+    }
+
+    public BigDecimal getRateCross() {
+        return rateCross;
+    }
+
+    public void setRateCross(BigDecimal rateCross) {
+        this.rateCross = rateCross;
     }
 }
+

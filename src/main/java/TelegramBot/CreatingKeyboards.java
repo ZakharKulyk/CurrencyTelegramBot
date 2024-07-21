@@ -1,7 +1,8 @@
 package TelegramBot;
 
+import Constants.ConstantsDev;
 import UserConfiguration.UserConfig;
-import org.telegram.telegrambots.meta.api.objects.User;
+
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
@@ -16,11 +17,11 @@ public class CreatingKeyboards {
 
         InlineKeyboardButton getInfoButton = new InlineKeyboardButton();
         getInfoButton.setText(stringWrapper("Отримати інформацію") + "\uD83D\uDCCA");
-        getInfoButton.setCallbackData("Get_info");
+        getInfoButton.setCallbackData(ConstantsDev.GET_INFO_CALLBACK_DATA);
 
         InlineKeyboardButton settingsButton = new InlineKeyboardButton();
         settingsButton.setText(stringWrapper("Налаштування") + "\u2699");
-        settingsButton.setCallbackData("Settings");
+        settingsButton.setCallbackData(ConstantsDev.SETTINGS);
 
         List<InlineKeyboardButton> mainMenuKeyboard = new ArrayList<>();
         mainMenuKeyboard.add(getInfoButton);
@@ -120,7 +121,7 @@ public class CreatingKeyboards {
 
         InlineKeyboardButton digitsAfterDecimalButton = new InlineKeyboardButton();
         digitsAfterDecimalButton.setText(stringWrapper("Кількість знаків після коми"));
-        digitsAfterDecimalButton.setCallbackData("DigitsAfterDecimal");
+        digitsAfterDecimalButton.setCallbackData(ConstantsDev.DIGITS_AFTER_DECIMAL_CALLBACK_DATA);
 
         InlineKeyboardButton bankButton = new InlineKeyboardButton();
         bankButton.setText(stringWrapper("Банк"));
