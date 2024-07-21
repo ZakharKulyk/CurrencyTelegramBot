@@ -2,6 +2,8 @@ package dto;
 
 import java.math.BigDecimal;
 
+import static Constants.ConstansDev.NBU_BANK;
+
 public class NbuDto implements  Bank{
     Long r030;
     String txt;
@@ -47,5 +49,10 @@ public class NbuDto implements  Bank{
 
     public void setExchangedate(String exchangedate) {
         this.exchangedate = exchangedate;
+    }
+
+    @Override
+    public String getName() {
+        return NBU_BANK;
     }
 }

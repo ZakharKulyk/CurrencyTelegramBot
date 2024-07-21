@@ -2,6 +2,8 @@ package dto;
 
 import java.math.BigDecimal;
 
+import static Constants.ConstansDev.PRIVAT_BANK;
+
 public class PrivatDto implements  Bank{
     String ccy;
     String base_ccy;
@@ -39,5 +41,10 @@ public class PrivatDto implements  Bank{
 
     public void setSale(BigDecimal sale) {
         this.sale = sale;
+    }
+
+    @Override
+    public String getName() {
+        return PRIVAT_BANK;
     }
 }

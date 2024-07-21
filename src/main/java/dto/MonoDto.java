@@ -3,6 +3,8 @@ package dto;
 
 import java.math.BigDecimal;
 
+import static Constants.ConstansDev.MONO_BANK;
+
 public class MonoDto implements  Bank{
 
     Long currencyCodeA;
@@ -57,6 +59,11 @@ public class MonoDto implements  Bank{
 
     public void setRateCross(BigDecimal rateCross) {
         this.rateCross = rateCross;
+    }
+
+    @Override
+    public String getName() {
+        return MONO_BANK;
     }
 }
 
