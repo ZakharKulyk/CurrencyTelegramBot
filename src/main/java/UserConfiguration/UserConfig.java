@@ -9,12 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserConfig {
-
     List<Bank> currentBanks = new ArrayList<>();
     List<BigDecimal> currentCurrencies = new ArrayList<>();
-
-    public UserConfig() {
-
-    }
 
 }

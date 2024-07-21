@@ -2,19 +2,42 @@ package dto;
 
 import java.math.BigDecimal;
 
-public record PrivatDto(String ccy, String base_ccy, BigDecimal buy, BigDecimal sale)implements  Bank {
-    @Override
-    public BigDecimal setDollar() {
-        return null;
+public class PrivatDto implements  Bank{
+    String ccy;
+    String base_ccy;
+    BigDecimal buy;
+    BigDecimal sale;
+
+
+    public String getCcy() {
+        return ccy;
     }
 
-    @Override
-    public BigDecimal setEuro() {
-        return null;
+    public void setCcy(String ccy) {
+        this.ccy = ccy;
     }
 
-    @Override
-    public String setName() {
-        return null;
+    public String getBase_ccy() {
+        return base_ccy;
+    }
+
+    public void setBase_ccy(String base_ccy) {
+        this.base_ccy = base_ccy;
+    }
+
+    public BigDecimal getBuy() {
+        return buy;
+    }
+
+    public void setBuy(BigDecimal buy) {
+        this.buy = buy;
+    }
+
+    public BigDecimal getSale() {
+        return sale;
+    }
+
+    public void setSale(BigDecimal sale) {
+        this.sale = sale;
     }
 }
