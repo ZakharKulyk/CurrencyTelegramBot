@@ -4,6 +4,8 @@ package TelegramBot;
 import Constants.ConstansDev;
 import UserConfiguration.UserConfig;
 
+import UserConfiguration.UserConfig;
+import dto.Bank;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
@@ -25,7 +27,7 @@ public class CreatingKeyboards {
 
         InlineKeyboardButton settingsButton = new InlineKeyboardButton();
         settingsButton.setText(stringWrapper("Налаштування") + "\u2699");
-        settingsButton.setCallbackData(ConstansDev.SETTINGS);
+        settingsButton.setCallbackData("Settings");
 
         List<InlineKeyboardButton> mainMenuKeyboard = new ArrayList<>();
         mainMenuKeyboard.add(getInfoButton);
@@ -129,7 +131,7 @@ public class CreatingKeyboards {
 
         InlineKeyboardButton bankButton = new InlineKeyboardButton();
         bankButton.setText(stringWrapper("Банк"));
-        bankButton.setCallbackData("Bank");
+        bankButton.setCallbackData(BANK);
 
         InlineKeyboardButton currenciesButton = new InlineKeyboardButton();
         currenciesButton.setText(stringWrapper("Валюти"));
@@ -244,12 +246,6 @@ public class CreatingKeyboards {
     }
     public static String isContain(List<String> bankList, String word){
         if (bankList.contains(word)){
-            return stringWrapper("✅") + word;
-        }
-        return word;
-    }
-    public static String isContainDecimalPlaces(List<String> decimalPlaces, String word) {
-        if (decimalPlaces.contains(word)) {
             return stringWrapper("✅") + word;
         }
         return word;

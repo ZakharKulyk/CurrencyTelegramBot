@@ -16,6 +16,8 @@ import java.util.concurrent.TimeUnit;
 
 import static Constants.ConstansDev.*;
 
+import static Constants.ConstansDev.*;
+
 public class TelegramCurrencyBot extends TelegramLongPollingBot {
 
     HashMap<String, UserConfig> dataBase = new HashMap<>();
@@ -24,7 +26,7 @@ public class TelegramCurrencyBot extends TelegramLongPollingBot {
     public void onUpdateReceived(Update update) {
         SendMessage message = new SendMessage();
         CreatingKeyboards keyboards = new CreatingKeyboards();
-        if (IsMessagePresent(update) && update.getMessage().getText().equalsIgnoreCase("/start")) {
+        if (IsMessagePresent(update) && update.getMessage().getText().equalsIgnoreCase("/start")){
             String chatId = update.getMessage().getChatId().toString();
             message.setChatId(chatId);
             message.setText(CreatingKeyboards.stringWrapper("Ласкаво просимо. Цей бот допоможе відслідковувати актуальні курси валют"));
@@ -371,15 +373,14 @@ public class TelegramCurrencyBot extends TelegramLongPollingBot {
 
     }
 
-
     @Override
     public String getBotUsername() {
-        return "https://t.me/JavaCurrency123Bot";
+        return "null";
     }
 
     @Override
     public String getBotToken() {
-        return "7434436728:AAGSSBb--F8Q9TZwkh1Ntdw7gWpEmXuX0Ps";
+        return "null";
     }
 
     private static boolean IsMessagePresent(Update update) {
