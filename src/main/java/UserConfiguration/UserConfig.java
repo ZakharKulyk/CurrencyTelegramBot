@@ -1,5 +1,6 @@
 package UserConfiguration;
 
+import Constants.ConstansDev;
 import dto.Bank;
 
 
@@ -14,21 +15,25 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 public class UserConfig {
+    private static int decimal = 1;
+
     LocalTime currentTime;
     List<String> decimalPlaces = new ArrayList<>();
     LocalTime timeForNotification;
     ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
     ScheduledFuture<?> scheduledFuture;
-    private static int decimal = 1;
-
-
-
-
-
-
-
     List<String> bankList = new ArrayList<>();
-    List<BigDecimal> currentCurrencies = new ArrayList<>();
+    List<String> currentCurrencies = List.of(ConstansDev.DOLLAR, ConstansDev.EURO);
+
+
+
+    public List<String> getCurrentCurrencies() {
+        return currentCurrencies;
+    }
+
+    public void setCurrentCurrencies(List<String> currentCurrencies) {
+        this.currentCurrencies = currentCurrencies;
+    }
 
     public LocalTime getCurrentTime() {
         return currentTime;
@@ -53,6 +58,16 @@ public class UserConfig {
     public void setService(ScheduledExecutorService service) {
         this.service = service;
     }
+
+    public  void addCurrency(String currency){
+        currentCurrencies.add(currency);
+    }
+    public  void deleteCurrency(String currency){
+        currentCurrencies.remove(currency);
+    }
+
+
+
 
     public UserConfig() {}
 
@@ -85,10 +100,12 @@ public class UserConfig {
     public void removeDigitsAfterDecimalPlace(String digits){
         decimalPlaces.remove(digits);
     }
-    public static void setDecimal(int decimal) {
+
+    public  void setDecimal(int decimal) {
         UserConfig.decimal = decimal;
     }
-    public static int getDecimal() {
+
+    public  int getDecimal() {
         return decimal;
     }
     public void addBank(String name){

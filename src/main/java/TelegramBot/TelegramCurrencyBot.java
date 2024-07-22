@@ -24,6 +24,7 @@ public class TelegramCurrencyBot extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
+        CurrencySort currencySort = new CurrencySort();
         SendMessage message = new SendMessage();
         CreatingKeyboards keyboards = new CreatingKeyboards();
         if (IsMessagePresent(update) && update.getMessage().getText().equalsIgnoreCase("/start")){
@@ -88,12 +89,8 @@ public class TelegramCurrencyBot extends TelegramLongPollingBot {
                 message.setReplyMarkup(keyboards.createSettingsKeyboard());
             }
             if (callbackQuery.getData().equals(GET_INFO_CALLBACK_DATA)) {
-                CurrencySort currencySort = new CurrencySort();
-                currencySort.SortBuySalePrivatUsdValue(userConfig);
-                message.setText(CreatingKeyboards.stringWrapper("Курс в ПриватБанк: USD/UAH\n" +
-                        "Покупка: " + currencySort.getPrivateBuyUsd() + "\n" +
-                        "Продаж: " + currencySort.getPrivatSellUsd()));
-                message.setReplyMarkup(keyboards.createMainKeyboard());
+              message.setText(currencySort.getInfo(userConfig));
+              message.setReplyMarkup(keyboards.createMainKeyboard());
             }
 
             if (callbackQuery.getData().equals(DIGITS_AFTER_DECIMAL_CALLBACK_DATA)) {
@@ -375,12 +372,12 @@ public class TelegramCurrencyBot extends TelegramLongPollingBot {
 
     @Override
     public String getBotUsername() {
-        return "null";
+        return "JavaCurrency123Bot";
     }
 
     @Override
     public String getBotToken() {
-        return "null";
+        return  "7434436728:AAGSSBb--F8Q9TZwkh1Ntdw7gWpEmXuX0Ps";
     }
 
     private static boolean IsMessagePresent(Update update) {
