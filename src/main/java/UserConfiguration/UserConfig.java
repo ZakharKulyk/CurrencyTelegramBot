@@ -9,6 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserConfig {
+
+    private static int decimal = 1;
+    List<String> decimalPlaces = new ArrayList<>();
     List<String> bankList = new ArrayList<>();
     List<BigDecimal> currentCurrencies = new ArrayList<>();
 
@@ -21,4 +24,23 @@ public class UserConfig {
     public List<String> getBanks(){
         return bankList;
     }
+
+    public List<String> getDecimalPlaces()
+    {
+        return decimalPlaces;
+    }
+    public void addDigitsAfterDecimalPlace(String digits){
+        decimalPlaces.add(digits);
+    }
+    public void removeDigitsAfterDecimalPlace(String digits){
+        decimalPlaces.remove(digits);
+    }
+
+    public static void setDecimal(int decimal) {
+        UserConfig.decimal = decimal;
+    }
+    public static int getDecimal() {
+        return decimal;
+    }
+
 }

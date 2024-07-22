@@ -10,5 +10,8 @@ public class ConstansDev {
     public static final String GET_INFO_CALLBACK_DATA = "Get_info";
     public static final String DIGITS_AFTER_DECIMAL_CALLBACK_DATA = "DigitsAfterDecimal";
     public static final String BANK = "Bank";
+    public static final String DIGITS_AFTER_DECIMAL2 = "DigitsAfterDecimal2";
+    public static final String DIGITS_AFTER_DECIMAL3 = "DigitsAfterDecimal3";
+    public static final String DIGITS_AFTER_DECIMAL4 = "DigitsAfterDecimal4";
 
 }
