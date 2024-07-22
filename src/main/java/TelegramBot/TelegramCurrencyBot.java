@@ -375,12 +375,12 @@ public class TelegramCurrencyBot extends TelegramLongPollingBot {
 
     @Override
     public String getBotUsername() {
-        return "JavaCurrency123Bot";
+        return "null";
     }
 
     @Override
     public String getBotToken() {
-        return "7434436728:AAGSSBb--F8Q9TZwkh1Ntdw7gWpEmXuX0Ps";
+        return "null";
     }
 
     private static boolean IsMessagePresent(Update update) {
