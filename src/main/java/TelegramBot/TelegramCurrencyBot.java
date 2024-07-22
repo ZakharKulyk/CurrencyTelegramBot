@@ -1,5 +1,7 @@
 package TelegramBot;
 
+import CurrencySort.CurrencySort;
+import UserConfiguration.UserConfig;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
@@ -12,6 +14,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static Constants.ConstansDev.*;
 
 public class TelegramCurrencyBot extends TelegramLongPollingBot {
 

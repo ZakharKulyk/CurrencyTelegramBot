@@ -9,8 +9,11 @@ import java.util.List;
 
 public class UserConfig {
 
+<<<<<<< Updated upstream
     private static int decimal = 1;
     List<String> decimalPlaces = new ArrayList<>();
+=======
+>>>>>>> Stashed changes
     List<String> bankList = new ArrayList<>();
     List<BigDecimal> currentCurrencies = new ArrayList<>();
 

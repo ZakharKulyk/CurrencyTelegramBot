@@ -47,4 +47,8 @@ public class PrivatDto implements  Bank{
     public String getName() {
         return PRIVAT_BANK;
     }
+<<<<<<< Updated upstream
 }
+=======
+}
+>>>>>>> Stashed changes
