@@ -13,11 +13,19 @@ import java.util.concurrent.TimeUnit;
 
 public class UserConfig {
     LocalTime currentTime;
+    List<String> decimalPlaces = new ArrayList<>();
     LocalTime timeForNotification;
     ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
     ScheduledFuture<?> scheduledFuture;
+    private static int decimal = 1;
 
-    List<String> currentBanks = new ArrayList<>();
+
+
+
+
+
+
+    List<String> bankList = new ArrayList<>();
     List<BigDecimal> currentCurrencies = new ArrayList<>();
 
     public LocalTime getCurrentTime() {
@@ -60,9 +68,35 @@ public class UserConfig {
             scheduledFuture.cancel(false);
         }
     }
+    public List<String> getDecimalPlaces()
+    {
+        return decimalPlaces;
+    }
 
     public void scheduleNotification(Runnable task, long delay, long period, TimeUnit unit) {
         cancelPreviousNotification();
         scheduledFuture = service.scheduleAtFixedRate(task, delay, period, unit);
     }
+    public void addDigitsAfterDecimalPlace(String digits){
+        decimalPlaces.add(digits);
+    }
+    public void removeDigitsAfterDecimalPlace(String digits){
+        decimalPlaces.remove(digits);
+    }
+    public static void setDecimal(int decimal) {
+        UserConfig.decimal = decimal;
+    }
+    public static int getDecimal() {
+        return decimal;
+    }
+    public void addBank(String name){
+        bankList.add(name);
+    }
+    public void removeBank(String name){
+        bankList.remove(name);
+    }
+    public List<String> getBanks(){
+        return bankList;
+    }
+
 }

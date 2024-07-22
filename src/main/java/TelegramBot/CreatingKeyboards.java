@@ -1,6 +1,7 @@
 package TelegramBot;
 
-import Constants.ConstantsDev;
+
+import Constants.ConstansDev;
 import UserConfiguration.UserConfig;
 
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
@@ -11,17 +12,19 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static Constants.ConstansDev.*;
+
 public class CreatingKeyboards {
     public ReplyKeyboard createMainKeyboard(){
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
 
         InlineKeyboardButton getInfoButton = new InlineKeyboardButton();
         getInfoButton.setText(stringWrapper("Отримати інформацію") + "\uD83D\uDCCA");
-        getInfoButton.setCallbackData(ConstantsDev.GET_INFO_CALLBACK_DATA);
+        getInfoButton.setCallbackData(ConstansDev.GET_INFO_CALLBACK_DATA);
 
         InlineKeyboardButton settingsButton = new InlineKeyboardButton();
         settingsButton.setText(stringWrapper("Налаштування") + "\u2699");
-        settingsButton.setCallbackData(ConstantsDev.SETTINGS);
+        settingsButton.setCallbackData(ConstansDev.SETTINGS);
 
         List<InlineKeyboardButton> mainMenuKeyboard = new ArrayList<>();
         mainMenuKeyboard.add(getInfoButton);
@@ -33,7 +36,7 @@ public class CreatingKeyboards {
         inlineKeyboardMarkup.setKeyboard(allButtons);
         return inlineKeyboardMarkup;
     }
-    public  InlineKeyboardMarkup createTimeNotificationKeyboard(UserConfig userConfig){
+    public  InlineKeyboardMarkup createTimeNotificationKeyboard(){
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
         List<List<InlineKeyboardButton>>rows = new ArrayList<>();
 
@@ -121,7 +124,7 @@ public class CreatingKeyboards {
 
         InlineKeyboardButton digitsAfterDecimalButton = new InlineKeyboardButton();
         digitsAfterDecimalButton.setText(stringWrapper("Кількість знаків після коми"));
-        digitsAfterDecimalButton.setCallbackData(ConstantsDev.DIGITS_AFTER_DECIMAL_CALLBACK_DATA);
+        digitsAfterDecimalButton.setCallbackData(ConstansDev.DIGITS_AFTER_DECIMAL_CALLBACK_DATA);
 
         InlineKeyboardButton bankButton = new InlineKeyboardButton();
         bankButton.setText(stringWrapper("Банк"));
@@ -164,6 +167,70 @@ public class CreatingKeyboards {
         inlineKeyboardMarkup.setKeyboard(allButtons);
         return inlineKeyboardMarkup;
     }
+    public InlineKeyboardMarkup bankKeyboard(UserConfig userConfig) {
+        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
+
+        InlineKeyboardButton monoBank = new InlineKeyboardButton();
+        monoBank.setText(isContain(userConfig.getBanks(), MONO_BANK));
+        monoBank.setCallbackData(MONO_BANK);
+
+        InlineKeyboardButton privatBank = new InlineKeyboardButton();
+        privatBank.setText(isContain(userConfig.getBanks(), PRIVAT_BANK));
+        privatBank.setCallbackData(PRIVAT_BANK);
+
+        InlineKeyboardButton nbuBank = new InlineKeyboardButton();
+        nbuBank.setText(isContain(userConfig.getBanks(), stringWrapper(NBU_BANK)));
+        nbuBank.setCallbackData(NBU_CALLBACK_DATA);
+
+        List<InlineKeyboardButton> monoRow = new ArrayList<>();
+        monoRow.add(monoBank);
+
+        List<InlineKeyboardButton> privatRow = new ArrayList<>();
+        privatRow.add(privatBank);
+
+        List<InlineKeyboardButton> nbuRow = new ArrayList<>();
+        nbuRow.add(nbuBank);
+
+        List<List<InlineKeyboardButton>> allButtons = new ArrayList<>();
+        allButtons.add(monoRow);
+        allButtons.add(privatRow);
+        allButtons.add(nbuRow);
+
+        inlineKeyboardMarkup.setKeyboard(allButtons);
+        return inlineKeyboardMarkup;
+    }
+
+    public InlineKeyboardMarkup createDecimalPlacesKeyboard(UserConfig userConfig) {
+        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
+
+        InlineKeyboardButton digitsAfterDecimalButtonTwo = new InlineKeyboardButton();
+        digitsAfterDecimalButtonTwo.setText(isContainDecimalPlaces(userConfig.getDecimalPlaces(), "2"));
+        digitsAfterDecimalButtonTwo.setCallbackData(DIGITS_AFTER_DECIMAL2);
+
+        InlineKeyboardButton digitsAfterDecimalButtonThree = new InlineKeyboardButton();
+        digitsAfterDecimalButtonThree.setText(isContainDecimalPlaces(userConfig.getDecimalPlaces(), "3"));
+        digitsAfterDecimalButtonThree.setCallbackData(DIGITS_AFTER_DECIMAL3);
+
+        InlineKeyboardButton digitsAfterDecimalButtonFour = new InlineKeyboardButton();
+        digitsAfterDecimalButtonFour.setText(isContainDecimalPlaces(userConfig.getDecimalPlaces(), "4"));
+        digitsAfterDecimalButtonFour.setCallbackData(DIGITS_AFTER_DECIMAL4);
+
+        List<InlineKeyboardButton> buttonTwo = new ArrayList<>();
+        buttonTwo.add(digitsAfterDecimalButtonTwo);
+        List<InlineKeyboardButton> buttonThree = new ArrayList<>();
+        buttonThree.add(digitsAfterDecimalButtonThree);
+        List<InlineKeyboardButton> buttonFour = new ArrayList<>();
+        buttonFour.add(digitsAfterDecimalButtonFour);
+
+        List<List<InlineKeyboardButton>> allButton = new ArrayList<>();
+        allButton.add(buttonTwo);
+        allButton.add(buttonThree);
+        allButton.add(buttonFour);
+
+        inlineKeyboardMarkup.setKeyboard(allButton);
+        return inlineKeyboardMarkup;
+    }
+
 
     public static String stringWrapper(String str){
         String result = "";
@@ -173,5 +240,17 @@ public class CreatingKeyboards {
             throw new IllegalStateException("UTF-8 encoding is not supported", e);
         }
         return result;
+    }
+    public static String isContain(List<String> bankList, String word){
+        if (bankList.contains(word)){
+            return stringWrapper("✅") + word;
+        }
+        return word;
+    }
+    public static String isContainDecimalPlaces(List<String> decimalPlaces, String word) {
+        if (decimalPlaces.contains(word)) {
+            return stringWrapper("✅") + word;
+        }
+        return word;
     }
 }
