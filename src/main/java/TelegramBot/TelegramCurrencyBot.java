@@ -52,7 +52,7 @@ public class TelegramCurrencyBot extends TelegramLongPollingBot {
             }
             if (callbackQuery.getData().equals(NOTIFICATION_TIME)){
                 message.setText(CreatingKeyboards.stringWrapper("Оберіть час для повідомлення"));
-                message.setReplyMarkup(keyboards.createTimeNotificationKeyboard());
+                message.setReplyMarkup(keyboards.createTimeNotificationKeyboard(userConfig));
             }
             if (callbackQuery.getData().equals(BANK)) {
                 message.setText(CreatingKeyboards.stringWrapper("Оберіть банк: "));
@@ -133,11 +133,12 @@ public class TelegramCurrencyBot extends TelegramLongPollingBot {
                 message.setReplyMarkup(keyboards.createSettingsKeyboard());
             }
             if (callbackQuery.getData().equals("9:00")){
-                newTime = LocalTime.of(9,00);
+                newTime = LocalTime.of(9,0);
 
                 userConfig.setTimeForNotification(newTime);
                 delay = userConfig.calculateDelay();
                 message.setText(CreatingKeyboards.stringWrapper("Актуальний курс буде надіслано о " + newTime.toString()));
+                message.setReplyMarkup(keyboards.createSettingsKeyboard());
 
                 Runnable tast = (()->{
                     SendMessage sendMessage = new SendMessage();
@@ -155,10 +156,11 @@ public class TelegramCurrencyBot extends TelegramLongPollingBot {
                 userConfig.scheduleNotification(tast, delay, TimeUnit.DAYS.toSeconds(1),TimeUnit.SECONDS);
             }
             if (callbackQuery.getData().equals("10:00")){
-                newTime = LocalTime.of(10,00);
+                newTime = LocalTime.of(10,0);
                 userConfig.setTimeForNotification(newTime);
                 delay = userConfig.calculateDelay();
                 message.setText(CreatingKeyboards.stringWrapper("Актуальний курс буде надіслано о " + newTime.toString()));
+                message.setReplyMarkup(keyboards.createSettingsKeyboard());
 
                 Runnable tast = (()->{
                     SendMessage sendMessage = new SendMessage();
@@ -180,6 +182,7 @@ public class TelegramCurrencyBot extends TelegramLongPollingBot {
                 userConfig.setTimeForNotification(newTime);
                 delay = userConfig.calculateDelay();
                 message.setText(CreatingKeyboards.stringWrapper("Актуальний курс буде надіслано о " + newTime.toString()));
+                message.setReplyMarkup(keyboards.createSettingsKeyboard());
 
                 Runnable tast = (()->{
                     SendMessage sendMessage = new SendMessage();
@@ -200,6 +203,7 @@ public class TelegramCurrencyBot extends TelegramLongPollingBot {
                 userConfig.setTimeForNotification(newTime);
                 delay = userConfig.calculateDelay();
                 message.setText(CreatingKeyboards.stringWrapper("Актуальний курс буде надіслано о " + newTime.toString()));
+                message.setReplyMarkup(keyboards.createSettingsKeyboard());
 
                 Runnable tast = (()->{
                     SendMessage sendMessage = new SendMessage();
@@ -221,6 +225,7 @@ public class TelegramCurrencyBot extends TelegramLongPollingBot {
                 userConfig.setTimeForNotification(newTime);
                 delay = userConfig.calculateDelay();
                 message.setText(CreatingKeyboards.stringWrapper("Актуальний курс буде надіслано о " + newTime.toString()));
+                message.setReplyMarkup(keyboards.createSettingsKeyboard());
 
                 Runnable tast = (()->{
                     SendMessage sendMessage = new SendMessage();
@@ -241,6 +246,7 @@ public class TelegramCurrencyBot extends TelegramLongPollingBot {
                 userConfig.setTimeForNotification(newTime);
                 delay = userConfig.calculateDelay();
                 message.setText(CreatingKeyboards.stringWrapper("Актуальний курс буде надіслано о " + newTime.toString()));
+                message.setReplyMarkup(keyboards.createSettingsKeyboard());
 
                 Runnable tast = (()->{
                     SendMessage sendMessage = new SendMessage();
@@ -261,6 +267,7 @@ public class TelegramCurrencyBot extends TelegramLongPollingBot {
                 userConfig.setTimeForNotification(newTime);
                 delay = userConfig.calculateDelay();
                 message.setText(CreatingKeyboards.stringWrapper("Актуальний курс буде надіслано о " + newTime.toString()));
+                message.setReplyMarkup(keyboards.createSettingsKeyboard());
 
                 Runnable tast = (()->{
                     SendMessage sendMessage = new SendMessage();
@@ -282,6 +289,7 @@ public class TelegramCurrencyBot extends TelegramLongPollingBot {
                 userConfig.setTimeForNotification(newTime);
                 delay = userConfig.calculateDelay();
                 message.setText(CreatingKeyboards.stringWrapper("Актуальний курс буде надіслано о " + newTime.toString()));
+                message.setReplyMarkup(keyboards.createSettingsKeyboard());
 
                 Runnable tast = (()->{
                     SendMessage sendMessage = new SendMessage();
@@ -302,6 +310,7 @@ public class TelegramCurrencyBot extends TelegramLongPollingBot {
                 userConfig.setTimeForNotification(newTime);
                 delay = userConfig.calculateDelay();
                 message.setText(CreatingKeyboards.stringWrapper("Актуальний курс буде надіслано о " + newTime.toString()));
+                message.setReplyMarkup(keyboards.createSettingsKeyboard());
 
                 Runnable tast = (()->{
                     SendMessage sendMessage = new SendMessage();
@@ -322,6 +331,7 @@ public class TelegramCurrencyBot extends TelegramLongPollingBot {
                 userConfig.setTimeForNotification(newTime);
                 delay = userConfig.calculateDelay();
                 message.setText(CreatingKeyboards.stringWrapper("Актуальний курс буде надіслано о " + newTime.toString()));
+                message.setReplyMarkup(keyboards.createSettingsKeyboard());
 
                 Runnable tast = (()->{
                     SendMessage sendMessage = new SendMessage();
@@ -337,8 +347,20 @@ public class TelegramCurrencyBot extends TelegramLongPollingBot {
 
                 userConfig.scheduleNotification(tast, delay, TimeUnit.DAYS.toSeconds(1),TimeUnit.SECONDS);
             }
+            if (callbackQuery.getData().equals(TURN_OF_NOTIFICATION)){
+                if(userConfig.getScheduledFuture()!=null){
+                    userConfig.getScheduledFuture().cancel(true);
+                    message.setText(CreatingKeyboards.stringWrapper("Повідомлення о курсі валют відмінено"));
+                    message.setReplyMarkup(keyboards.createSettingsKeyboard());
+                }else {
+                    message.setText(CreatingKeyboards.stringWrapper("Повідомлення відсутні"));
+                }
 
-
+            }
+            if (callbackQuery.getData().equals(BACK_TO_MAIN_MENU)){
+                message.setText(CreatingKeyboards.stringWrapper("Ласкаво просимо. Цей бот допоможе відслідковувати актуальні курси валют"));
+                message.setReplyMarkup(keyboards.createMainKeyboard());
+            }
 
             try {
                 execute(message);
