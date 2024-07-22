@@ -15,7 +15,7 @@ import java.net.http.HttpClient;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PrivatParcer {
+public class PrivatParcer  {
     public List<PrivatDto> getRequest(){
         CloseableHttpClient client = HttpClients.createDefault();
         try

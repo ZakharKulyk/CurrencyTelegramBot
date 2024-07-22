@@ -3,6 +3,7 @@ package Parce;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import dto.Bank;
 import dto.NbuDto;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -16,8 +17,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NBUParcer {
-    public List<NbuDto> getRequest(){
+public class NBUParcer  {
+        public List<NbuDto> getRequest(){
         CloseableHttpClient client = HttpClients.createDefault();
         try{
             HttpGet request = new HttpGet("https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?json");

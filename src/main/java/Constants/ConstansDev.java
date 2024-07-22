@@ -16,5 +16,8 @@ public class ConstansDev {
     public  static  final  String NOTIFICATION_TIME = "NotificationTime";
     public  static  final String TURN_OF_NOTIFICATION = "turnOffNotifications";
     public  static  final String BACK_TO_MAIN_MENU = "BackToMainMenu";
+    public  static  final  String DOLLAR = "USD";
+    public  static  final  String EURO = "EUR";
+    public  static  final String HRYVNA = "UAH";
 
 }
