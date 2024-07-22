@@ -1,8 +1,11 @@
 package CurrencySort;
 
+import Parce.MonoParcer;
+import Parce.NBUParcer;
 import Parce.PrivatParcer;
 import UserConfiguration.UserConfig;
 import dto.PrivatDto;
+import org.telegram.telegrambots.meta.api.objects.User;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -13,10 +16,8 @@ public class CurrencySort {
     private BigDecimal PrivateBuyUsd;
     private BigDecimal PrivatSellUsd;
 
-    public void SortBuySalePrivatUsdValue()
-    {
+    public void SortBuySalePrivatUsdValue(UserConfig userConfig) {
         PrivatParcer privatParcer = new PrivatParcer();
-        UserConfig userConfig = new UserConfig();
         List<PrivatDto> rates = privatParcer.getRequest();
 
         Optional<PrivatDto> usdRate = rates.stream()
@@ -36,4 +37,6 @@ public class CurrencySort {
     public BigDecimal getPrivatSellUsd() {
         return PrivatSellUsd;
     }
+
 }
+

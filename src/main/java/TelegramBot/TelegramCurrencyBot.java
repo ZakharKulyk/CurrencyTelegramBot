@@ -89,7 +89,7 @@ public class TelegramCurrencyBot extends TelegramLongPollingBot {
             }
             if (callbackQuery.getData().equals(GET_INFO_CALLBACK_DATA)) {
                 CurrencySort currencySort = new CurrencySort();
-                currencySort.SortBuySalePrivatUsdValue();
+                currencySort.SortBuySalePrivatUsdValue(userConfig);
                 message.setText(CreatingKeyboards.stringWrapper("Курс в ПриватБанк: USD/UAH\n" +
                         "Покупка: " + currencySort.getPrivateBuyUsd() + "\n" +
                         "Продаж: " + currencySort.getPrivatSellUsd()));
@@ -180,7 +180,7 @@ public class TelegramCurrencyBot extends TelegramLongPollingBot {
                 userConfig.scheduleNotification(tast, delay, TimeUnit.DAYS.toSeconds(1),TimeUnit.SECONDS);
             }
             if (callbackQuery.getData().equals("11:00")){
-                newTime = LocalTime.of(11,00);
+                newTime = LocalTime.of(11,0);
                 userConfig.setTimeForNotification(newTime);
                 delay = userConfig.calculateDelay();
                 message.setText(CreatingKeyboards.stringWrapper("Актуальний курс буде надіслано о " + newTime.toString()));
@@ -375,12 +375,12 @@ public class TelegramCurrencyBot extends TelegramLongPollingBot {
 
     @Override
     public String getBotUsername() {
-        return "null";
+        return "JavaCurrency123Bot";
     }
 
     @Override
     public String getBotToken() {
-        return "null";
+        return "7434436728:AAGSSBb--F8Q9TZwkh1Ntdw7gWpEmXuX0Ps";
     }
 
     private static boolean IsMessagePresent(Update update) {
