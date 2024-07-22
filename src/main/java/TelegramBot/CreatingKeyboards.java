@@ -27,7 +27,7 @@ public class CreatingKeyboards {
 
         InlineKeyboardButton settingsButton = new InlineKeyboardButton();
         settingsButton.setText(stringWrapper("Налаштування") + "\u2699");
-        settingsButton.setCallbackData("Settings");
+        settingsButton.setCallbackData(ConstansDev.SETTINGS);
 
         List<InlineKeyboardButton> mainMenuKeyboard = new ArrayList<>();
         mainMenuKeyboard.add(getInfoButton);
@@ -207,15 +207,15 @@ public class CreatingKeyboards {
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
 
         InlineKeyboardButton digitsAfterDecimalButtonTwo = new InlineKeyboardButton();
-        digitsAfterDecimalButtonTwo.setText(isContainDecimalPlaces(userConfig.getDecimalPlaces(), "2"));
+        digitsAfterDecimalButtonTwo.setText(isContain(userConfig.getDecimalPlaces(), "2"));
         digitsAfterDecimalButtonTwo.setCallbackData(DIGITS_AFTER_DECIMAL2);
 
         InlineKeyboardButton digitsAfterDecimalButtonThree = new InlineKeyboardButton();
-        digitsAfterDecimalButtonThree.setText(isContainDecimalPlaces(userConfig.getDecimalPlaces(), "3"));
+        digitsAfterDecimalButtonThree.setText(isContain(userConfig.getDecimalPlaces(), "3"));
         digitsAfterDecimalButtonThree.setCallbackData(DIGITS_AFTER_DECIMAL3);
 
         InlineKeyboardButton digitsAfterDecimalButtonFour = new InlineKeyboardButton();
-        digitsAfterDecimalButtonFour.setText(isContainDecimalPlaces(userConfig.getDecimalPlaces(), "4"));
+        digitsAfterDecimalButtonFour.setText(isContain(userConfig.getDecimalPlaces(), "4"));
         digitsAfterDecimalButtonFour.setCallbackData(DIGITS_AFTER_DECIMAL4);
 
         List<InlineKeyboardButton> buttonTwo = new ArrayList<>();
@@ -250,5 +250,6 @@ public class CreatingKeyboards {
         }
         return word;
     }
+
 
 }
