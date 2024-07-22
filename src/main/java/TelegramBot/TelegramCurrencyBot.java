@@ -7,6 +7,7 @@ import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 
 import java.time.LocalTime;
@@ -42,6 +43,8 @@ public class TelegramCurrencyBot extends TelegramLongPollingBot {
             String chatId = callbackQuery.getMessage().getChatId().toString();
             message.setChatId(chatId);
             UserConfig userConfig = dataBase.get(chatId);
+            long delay;
+            LocalTime newTime = null;
 
             if (callbackQuery.getData().equals(SETTINGS)) {
                 message.setText(CreatingKeyboards.stringWrapper("Налаштування"));
@@ -129,6 +132,213 @@ public class TelegramCurrencyBot extends TelegramLongPollingBot {
                 message.setText(CreatingKeyboards.stringWrapper("Налаштування"));
                 message.setReplyMarkup(keyboards.createSettingsKeyboard());
             }
+            if (callbackQuery.getData().equals("9:00")){
+                newTime = LocalTime.of(9,00);
+
+                userConfig.setTimeForNotification(newTime);
+                delay = userConfig.calculateDelay();
+                message.setText(CreatingKeyboards.stringWrapper("Актуальний курс буде надіслано о " + newTime.toString()));
+
+                Runnable tast = (()->{
+                    SendMessage sendMessage = new SendMessage();
+                    sendMessage.setText(CreatingKeyboards.stringWrapper("тут буде актуальний курс"));
+                    sendMessage.setChatId(chatId);
+
+                    try {
+                        execute(sendMessage);
+                    } catch (TelegramApiException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                });
+
+                userConfig.scheduleNotification(tast, delay, TimeUnit.DAYS.toSeconds(1),TimeUnit.SECONDS);
+            }
+            if (callbackQuery.getData().equals("10:00")){
+                newTime = LocalTime.of(10,00);
+                userConfig.setTimeForNotification(newTime);
+                delay = userConfig.calculateDelay();
+                message.setText(CreatingKeyboards.stringWrapper("Актуальний курс буде надіслано о " + newTime.toString()));
+
+                Runnable tast = (()->{
+                    SendMessage sendMessage = new SendMessage();
+                    sendMessage.setText(CreatingKeyboards.stringWrapper("тут буде актуальний курс"));
+                    sendMessage.setChatId(chatId);
+
+                    try {
+                        execute(sendMessage);
+                    } catch (TelegramApiException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                });
+
+                userConfig.scheduleNotification(tast, delay, TimeUnit.DAYS.toSeconds(1),TimeUnit.SECONDS);
+            }
+            if (callbackQuery.getData().equals("11:00")){
+                newTime = LocalTime.of(11,00);
+                userConfig.setTimeForNotification(newTime);
+                delay = userConfig.calculateDelay();
+                message.setText(CreatingKeyboards.stringWrapper("Актуальний курс буде надіслано о " + newTime.toString()));
+
+                Runnable tast = (()->{
+                    SendMessage sendMessage = new SendMessage();
+                    sendMessage.setText(CreatingKeyboards.stringWrapper("тут буде актуальний курс"));
+                    sendMessage.setChatId(chatId);
+
+                    try {
+                        execute(sendMessage);
+                    } catch (TelegramApiException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
+
+                userConfig.scheduleNotification(tast, delay, TimeUnit.DAYS.toSeconds(1),TimeUnit.SECONDS);
+            }
+            if (callbackQuery.getData().equals("12:00")){
+                newTime = LocalTime.of(12,00);
+                userConfig.setTimeForNotification(newTime);
+                delay = userConfig.calculateDelay();
+                message.setText(CreatingKeyboards.stringWrapper("Актуальний курс буде надіслано о " + newTime.toString()));
+
+                Runnable tast = (()->{
+                    SendMessage sendMessage = new SendMessage();
+                    sendMessage.setText(CreatingKeyboards.stringWrapper("тут буде актуальний курс"));
+                    sendMessage.setChatId(chatId);
+
+                    try {
+                        execute(sendMessage);
+                    } catch (TelegramApiException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
+
+                userConfig.scheduleNotification(tast, delay, TimeUnit.DAYS.toSeconds(1),TimeUnit.SECONDS);
+            }
+
+            if (callbackQuery.getData().equals("13:00")){
+                newTime = LocalTime.of(13,00);
+                userConfig.setTimeForNotification(newTime);
+                delay = userConfig.calculateDelay();
+                message.setText(CreatingKeyboards.stringWrapper("Актуальний курс буде надіслано о " + newTime.toString()));
+
+                Runnable tast = (()->{
+                    SendMessage sendMessage = new SendMessage();
+                    sendMessage.setText(CreatingKeyboards.stringWrapper("тут буде актуальний курс"));
+                    sendMessage.setChatId(chatId);
+
+                    try {
+                        execute(sendMessage);
+                    } catch (TelegramApiException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
+
+                userConfig.scheduleNotification(tast, delay, TimeUnit.DAYS.toSeconds(1),TimeUnit.SECONDS);
+            }
+            if (callbackQuery.getData().equals("14:00")){
+                newTime = LocalTime.of(14,00);
+                userConfig.setTimeForNotification(newTime);
+                delay = userConfig.calculateDelay();
+                message.setText(CreatingKeyboards.stringWrapper("Актуальний курс буде надіслано о " + newTime.toString()));
+
+                Runnable tast = (()->{
+                    SendMessage sendMessage = new SendMessage();
+                    sendMessage.setText(CreatingKeyboards.stringWrapper("тут буде актуальний курс"));
+                    sendMessage.setChatId(chatId);
+
+                    try {
+                        execute(sendMessage);
+                    } catch (TelegramApiException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
+
+                userConfig.scheduleNotification(tast, delay, TimeUnit.DAYS.toSeconds(1),TimeUnit.SECONDS);
+            }
+            if (callbackQuery.getData().equals("15:00")){
+                newTime = LocalTime.of(15,00);
+                userConfig.setTimeForNotification(newTime);
+                delay = userConfig.calculateDelay();
+                message.setText(CreatingKeyboards.stringWrapper("Актуальний курс буде надіслано о " + newTime.toString()));
+
+                Runnable tast = (()->{
+                    SendMessage sendMessage = new SendMessage();
+                    sendMessage.setText(CreatingKeyboards.stringWrapper("тут буде актуальний курс"));
+                    sendMessage.setChatId(chatId);
+
+                    try {
+                        execute(sendMessage);
+                    } catch (TelegramApiException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
+
+                userConfig.scheduleNotification(tast, delay, TimeUnit.DAYS.toSeconds(1),TimeUnit.SECONDS);
+            }
+
+            if (callbackQuery.getData().equals("16:00")){
+                newTime = LocalTime.of(16,00);
+                userConfig.setTimeForNotification(newTime);
+                delay = userConfig.calculateDelay();
+                message.setText(CreatingKeyboards.stringWrapper("Актуальний курс буде надіслано о " + newTime.toString()));
+
+                Runnable tast = (()->{
+                    SendMessage sendMessage = new SendMessage();
+                    sendMessage.setText(CreatingKeyboards.stringWrapper("тут буде актуальний курс"));
+                    sendMessage.setChatId(chatId);
+
+                    try {
+                        execute(sendMessage);
+                    } catch (TelegramApiException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
+
+                userConfig.scheduleNotification(tast, delay, TimeUnit.DAYS.toSeconds(1),TimeUnit.SECONDS);
+            }
+            if (callbackQuery.getData().equals("17:00")){
+                newTime = LocalTime.of(17,00);
+                userConfig.setTimeForNotification(newTime);
+                delay = userConfig.calculateDelay();
+                message.setText(CreatingKeyboards.stringWrapper("Актуальний курс буде надіслано о " + newTime.toString()));
+
+                Runnable tast = (()->{
+                    SendMessage sendMessage = new SendMessage();
+                    sendMessage.setText(CreatingKeyboards.stringWrapper("тут буде актуальний курс"));
+                    sendMessage.setChatId(chatId);
+
+                    try {
+                        execute(sendMessage);
+                    } catch (TelegramApiException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
+
+                userConfig.scheduleNotification(tast, delay, TimeUnit.DAYS.toSeconds(1),TimeUnit.SECONDS);
+            }
+            if (callbackQuery.getData().equals("18:00")){
+                newTime = LocalTime.of(18,00);
+                userConfig.setTimeForNotification(newTime);
+                delay = userConfig.calculateDelay();
+                message.setText(CreatingKeyboards.stringWrapper("Актуальний курс буде надіслано о " + newTime.toString()));
+
+                Runnable tast = (()->{
+                    SendMessage sendMessage = new SendMessage();
+                    sendMessage.setText(CreatingKeyboards.stringWrapper("тут буде актуальний курс"));
+                    sendMessage.setChatId(chatId);
+
+                    try {
+                        execute(sendMessage);
+                    } catch (TelegramApiException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
+
+                userConfig.scheduleNotification(tast, delay, TimeUnit.DAYS.toSeconds(1),TimeUnit.SECONDS);
+            }
+
+
 
             try {
                 execute(message);
