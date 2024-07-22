@@ -52,7 +52,7 @@ public class TelegramCurrencyBot extends TelegramLongPollingBot {
             }
             if (callbackQuery.getData().equals(NOTIFICATION_TIME)){
                 message.setText(CreatingKeyboards.stringWrapper("Оберіть час для повідомлення"));
-                message.setReplyMarkup(keyboards.createTimeNotificationKeyboard(userConfig));
+                message.setReplyMarkup(keyboards.createTimeNotificationKeyboard());
             }
             if (callbackQuery.getData().equals(BANK)) {
                 message.setText(CreatingKeyboards.stringWrapper("Оберіть банк: "));
