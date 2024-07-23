@@ -169,6 +169,7 @@ public class CreatingKeyboards {
         inlineKeyboardMarkup.setKeyboard(allButtons);
         return inlineKeyboardMarkup;
     }
+
     public InlineKeyboardMarkup bankKeyboard(UserConfig userConfig) {
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
 
