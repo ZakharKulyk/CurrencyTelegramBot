@@ -1,128 +1,132 @@
 package TelegramBot;
 
+import UserConfiguration.UserConfig;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+
+import static Constants.ConstansDev.*;
 
 public class CreatingKeyboards {
-
-    // Змінна для зберігання вибраних користувачем валют
-    private final Set<String> selectedCurrencies = new HashSet<>();
 
     public InlineKeyboardMarkup createMainKeyboard() {
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
 
-        InlineKeyboardButton getInfoButton = new InlineKeyboardButton();
-        getInfoButton.setText(stringWrapper("Отримати інформацію") + "\uD83D\uDCCA");
-        getInfoButton.setCallbackData("Get_info");
-
-        InlineKeyboardButton settingsButton = new InlineKeyboardButton();
-        settingsButton.setText(stringWrapper("Налаштування") + "\u2699");
-        settingsButton.setCallbackData("Settings");
-
-        List<InlineKeyboardButton> mainMenuKeyboard = new ArrayList<>();
-        mainMenuKeyboard.add(getInfoButton);
-        mainMenuKeyboard.add(settingsButton);
-
         List<List<InlineKeyboardButton>> allButtons = new ArrayList<>();
-        allButtons.add(mainMenuKeyboard);
+        List<InlineKeyboardButton> mainMenuKeyboard = new ArrayList<>();
 
+        mainMenuKeyboard.add(createInlineKeyboardButton(stringWrapper("Отримати інформацію") + "\uD83D\uDCCA", GET_INFO_CALLBACK_DATA));
+        mainMenuKeyboard.add(createInlineKeyboardButton(stringWrapper("Налаштування") + "\u2699", SETTINGS));
+
+        allButtons.add(mainMenuKeyboard);
         inlineKeyboardMarkup.setKeyboard(allButtons);
+
+        return inlineKeyboardMarkup;
+    }
+
+    public InlineKeyboardMarkup createTimeNotificationKeyboard() {
+        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
+
+        List<List<InlineKeyboardButton>> rows = new ArrayList<>();
+
+        for (int hour = 9; hour <= 18; hour++) {
+            InlineKeyboardButton button = new InlineKeyboardButton();
+            button.setText(hour + ":00");
+            button.setCallbackData(hour + ":00");
+            List<InlineKeyboardButton> row = new ArrayList<>();
+            row.add(button);
+            rows.add(row);
+        }
+
+        InlineKeyboardButton turnOff = new InlineKeyboardButton();
+        turnOff.setText(stringWrapper("Вимкнути повідомлення"));
+        turnOff.setCallbackData("turnOffNotifications");
+
+        List<InlineKeyboardButton> fourthRow = new ArrayList<>();
+        fourthRow.add(turnOff);
+        rows.add(fourthRow);
+
+        inlineKeyboardMarkup.setKeyboard(rows);
         return inlineKeyboardMarkup;
     }
 
     public InlineKeyboardMarkup createSettingsKeyboard() {
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
 
-        InlineKeyboardButton digitsAfterDecimalButton = new InlineKeyboardButton();
-        digitsAfterDecimalButton.setText(stringWrapper("Кількість знаків після коми"));
-        digitsAfterDecimalButton.setCallbackData("DigitsAfterDecimal");
-
-        InlineKeyboardButton bankButton = new InlineKeyboardButton();
-        bankButton.setText(stringWrapper("Банк"));
-        bankButton.setCallbackData("Bank");
-
-        InlineKeyboardButton currenciesButton = new InlineKeyboardButton();
-        currenciesButton.setText(stringWrapper("Валюти"));
-        currenciesButton.setCallbackData("Currencies");
-
-        InlineKeyboardButton notificationTimeButton = new InlineKeyboardButton();
-        notificationTimeButton.setText(stringWrapper("Час оповіщень"));
-        notificationTimeButton.setCallbackData("NotificationTime");
-
-        InlineKeyboardButton backButton = new InlineKeyboardButton();
-        backButton.setText(stringWrapper("Назад"));
-        backButton.setCallbackData("BackToMainMenu");
-
-        List<InlineKeyboardButton> digitsRow = new ArrayList<>();
-        digitsRow.add(digitsAfterDecimalButton);
-
-        List<InlineKeyboardButton> bankRow = new ArrayList<>();
-        bankRow.add(bankButton);
-
-        List<InlineKeyboardButton> currenciesRow = new ArrayList<>();
-        currenciesRow.add(currenciesButton);
-
-        List<InlineKeyboardButton> notificationRow = new ArrayList<>();
-        notificationRow.add(notificationTimeButton);
-
-        List<InlineKeyboardButton> backRow = new ArrayList<>();
-        backRow.add(backButton);
-
         List<List<InlineKeyboardButton>> allButtons = new ArrayList<>();
-        allButtons.add(digitsRow);
-        allButtons.add(bankRow);
-        allButtons.add(currenciesRow);
-        allButtons.add(notificationRow);
-        allButtons.add(backRow);
+
+        allButtons.add(createRowWithSingleButton(stringWrapper("Кількість знаків після коми"), DIGITS_AFTER_DECIMAL_CALLBACK_DATA));
+        allButtons.add(createRowWithSingleButton(stringWrapper("Банк"), BANK));
+        allButtons.add(createRowWithSingleButton(stringWrapper("Валюти"), "Currencies"));
+        allButtons.add(createRowWithSingleButton(stringWrapper("Час оповіщень"), "NotificationTime"));
+        allButtons.add(createRowWithSingleButton(stringWrapper("Назад"), "BackToMainMenu"));
 
         inlineKeyboardMarkup.setKeyboard(allButtons);
         return inlineKeyboardMarkup;
     }
 
-    // Метод для створення клавіатури з валютами з урахуванням вибраних валют
-    public InlineKeyboardMarkup createCurrencyKeyboard() {
+    public InlineKeyboardMarkup bankKeyboard(UserConfig userConfig) {
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
 
-        InlineKeyboardButton usdButton = createCurrencyButton("USD");
-        InlineKeyboardButton eurButton = createCurrencyButton("EUR");
-
-        List<InlineKeyboardButton> row1 = new ArrayList<>();
-        row1.add(usdButton);
-        row1.add(eurButton);
-
         List<List<InlineKeyboardButton>> allButtons = new ArrayList<>();
-        allButtons.add(row1);
+        allButtons.add(createRowWithSingleButton(isContain(userConfig.getBanks(), stringWrapper(MONO_BANK)), MONO_BANK));
+        allButtons.add(createRowWithSingleButton(isContain(userConfig.getBanks(), stringWrapper(PRIVAT_BANK)), PRIVAT_BANK));
+        allButtons.add(createRowWithSingleButton(isContain(userConfig.getBanks(), stringWrapper(NBU_BANK)), NBU_CALLBACK_DATA));
 
         inlineKeyboardMarkup.setKeyboard(allButtons);
         return inlineKeyboardMarkup;
     }
 
-    // Метод для створення кнопки з валютою
-    private InlineKeyboardButton createCurrencyButton(String currencyCode) {
+    public InlineKeyboardMarkup createDecimalPlacesKeyboard(UserConfig userConfig) {
+        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
+
+        List<List<InlineKeyboardButton>> allButtons = new ArrayList<>();
+        allButtons.add(createRowWithSingleButton(isContain(userConfig.getDecimalPlaces(), "2"), DIGITS_AFTER_DECIMAL2));
+        allButtons.add(createRowWithSingleButton(isContain(userConfig.getDecimalPlaces(), "3"), DIGITS_AFTER_DECIMAL3));
+        allButtons.add(createRowWithSingleButton(isContain(userConfig.getDecimalPlaces(), "4"), DIGITS_AFTER_DECIMAL4));
+
+        inlineKeyboardMarkup.setKeyboard(allButtons);
+        return inlineKeyboardMarkup;
+    }
+
+    public InlineKeyboardMarkup createCurrencyKeyboard(UserConfig userConfig) {
+        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
+
+        List<List<InlineKeyboardButton>> allButtons = new ArrayList<>();
+        allButtons.add(createRowWithSingleButton("USD", DOLLAR, userConfig.isSelected("USD")));
+        allButtons.add(createRowWithSingleButton("EUR", EURO, userConfig.isSelected("EUR")));
+
+        inlineKeyboardMarkup.setKeyboard(allButtons);
+        return inlineKeyboardMarkup;
+    }
+
+    private InlineKeyboardButton createInlineKeyboardButton(String text, String callbackData) {
         InlineKeyboardButton button = new InlineKeyboardButton();
-        button.setText(currencyCode);
-
-        if (selectedCurrencies.contains(currencyCode)) {
-            button.setText("\u2705 " + currencyCode); // Валюта вибрана
-        }
-
-        button.setCallbackData("Currency_" + currencyCode);
+        button.setText(text);
+        button.setCallbackData(callbackData);
         return button;
     }
 
-    // Метод для оновлення вибраних валют
-    public void updateSelectedCurrencies(String currencyCode) {
-        if (selectedCurrencies.contains(currencyCode)) {
-            selectedCurrencies.remove(currencyCode); // Вимикаємо валюту
-        } else {
-            selectedCurrencies.add(currencyCode); // Включаємо валюту
-        }
+    private InlineKeyboardButton createInlineKeyboardButton(String text, String callbackData, boolean isSelected) {
+        InlineKeyboardButton button = new InlineKeyboardButton();
+        button.setText(text + (isSelected ? " \u2705" : ""));
+        button.setCallbackData(callbackData);
+        return button;
+    }
+
+    private List<InlineKeyboardButton> createRowWithSingleButton(String buttonText, String callbackData) {
+        List<InlineKeyboardButton> row = new ArrayList<>();
+        row.add(createInlineKeyboardButton(buttonText, callbackData));
+        return row;
+    }
+
+    private List<InlineKeyboardButton> createRowWithSingleButton(String buttonText, String callbackData, boolean isSelected) {
+        List<InlineKeyboardButton> row = new ArrayList<>();
+        row.add(createInlineKeyboardButton(buttonText, callbackData, isSelected));
+        return row;
     }
 
     public static String stringWrapper(String str){
@@ -134,4 +138,9 @@ public class CreatingKeyboards {
         }
         return result;
     }
+
+    public static String isContain(List<String> bankList, String word) {
+        return bankList.contains(word) ? stringWrapper("✅") + word : word;
+    }
 }
+

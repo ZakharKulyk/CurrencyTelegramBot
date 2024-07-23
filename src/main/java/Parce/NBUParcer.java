@@ -16,7 +16,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NBUParcer {
+public class NBUParcer  {
     public List<NbuDto> getRequest(){
         CloseableHttpClient client = HttpClients.createDefault();
         try{

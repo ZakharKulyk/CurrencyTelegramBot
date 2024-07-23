@@ -1,48 +1,116 @@
 package UserConfiguration;
-import dto.Bank;
 
 
+import Constants.ConstansDev;
 
-import java.math.BigDecimal;
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 
 public class UserConfig {
-
-<<<<<<< Updated upstream
     private static int decimal = 1;
+
+    LocalTime currentTime;
     List<String> decimalPlaces = new ArrayList<>();
-=======
->>>>>>> Stashed changes
+    LocalTime timeForNotification;
+    ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
+    ScheduledFuture<?> scheduledFuture;
     List<String> bankList = new ArrayList<>();
-    List<BigDecimal> currentCurrencies = new ArrayList<>();
+    List<String> currentCurrencies = new ArrayList<>();
 
-    public void addBank(String name){
-        bankList.add(name);
-    }
-    public void removeBank(String name){
-        bankList.remove(name);
-    }
-    public List<String> getBanks(){
-        return bankList;
+
+    public List<String> getCurrentCurrencies() {
+        return currentCurrencies;
     }
 
-    public List<String> getDecimalPlaces()
-    {
+    public ScheduledExecutorService getService() {
+        return service;
+    }
+
+    public void setTimeForNotification(LocalTime timeForNotification) {
+        this.timeForNotification = timeForNotification;
+    }
+
+    public void addCurrency(String currency) {
+        currentCurrencies.add(currency);
+    }
+
+    public void deleteCurrency(String currency) {
+        currentCurrencies.remove(currency);
+    }
+
+    public List<String> getDecimalPlaces() {
         return decimalPlaces;
     }
-    public void addDigitsAfterDecimalPlace(String digits){
+
+
+    public long calculateDelay() {
+        currentTime = LocalTime.now();
+        long delay = timeForNotification.toSecondOfDay() - currentTime.toSecondOfDay();
+        if (delay < 0) {
+            delay += TimeUnit.DAYS.toSeconds(1);
+        }
+        return delay;
+    }
+
+    public void cancelPreviousNotification() {
+        if (scheduledFuture != null && !scheduledFuture.isDone()) {
+            scheduledFuture.cancel(false);
+        }
+    }
+
+
+    public void scheduleNotification(Runnable task, long delay, long period, TimeUnit unit) {
+        cancelPreviousNotification();
+        scheduledFuture = service.scheduleAtFixedRate(task, delay, period, unit);
+    }
+
+    public void addDigitsAfterDecimalPlace(String digits) {
         decimalPlaces.add(digits);
     }
-    public void removeDigitsAfterDecimalPlace(String digits){
+
+    public void removeDigitsAfterDecimalPlace(String digits) {
         decimalPlaces.remove(digits);
     }
 
-    public static void setDecimal(int decimal) {
+    public void setDecimal(int decimal) {
         UserConfig.decimal = decimal;
     }
-    public static int getDecimal() {
+
+    public int getDecimal() {
         return decimal;
+    }
+
+    public void addBank(String name) {
+        bankList.add(name);
+    }
+
+    public void removeBank(String name) {
+        bankList.remove(name);
+    }
+
+    public List<String> getBanks() {
+        return bankList;
+    }
+
+    public ScheduledFuture<?> getScheduledFuture() {
+        return scheduledFuture;
+    }
+
+    private Set<String> selectedCurrencies = new HashSet<>();
+
+    public boolean isSelected(String currency) {
+        return selectedCurrencies.contains(currency);
+    }
+
+    public Set<String> getCurrencies() {
+        return selectedCurrencies;
     }
 
 }

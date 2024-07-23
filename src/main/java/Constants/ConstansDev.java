@@ -12,8 +12,11 @@ public class ConstansDev {
     public static final String DIGITS_AFTER_DECIMAL2 = "DigitsAfterDecimal2";
     public static final String DIGITS_AFTER_DECIMAL3 = "DigitsAfterDecimal3";
     public static final String DIGITS_AFTER_DECIMAL4 = "DigitsAfterDecimal4";
-<<<<<<< Updated upstream
+    public  static  final  String NOTIFICATION_TIME = "NotificationTime";
+    public  static  final String TURN_OF_NOTIFICATION = "turnOffNotifications";
+    public  static  final String BACK_TO_MAIN_MENU = "BackToMainMenu";
+    public  static  final  String DOLLAR = "USD";
+    public  static  final  String EURO = "EUR";
+    public  static  final String HRYVNA = "UAH";
 
-=======
->>>>>>> Stashed changes
 }

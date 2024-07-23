@@ -64,8 +64,7 @@ public class MonoDto implements  Bank{
     public String getName() {
         return MONO_BANK;
     }
-<<<<<<< Updated upstream
 }
-=======
-}
->>>>>>> Stashed changes
+
+
+
