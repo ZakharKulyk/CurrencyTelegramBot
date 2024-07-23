@@ -370,7 +370,7 @@ public class TelegramCurrencyBot extends TelegramLongPollingBot {
 
     @Override
     public String getBotUsername() {
-        return "null;
+        return null;
     }
 
     @Override
