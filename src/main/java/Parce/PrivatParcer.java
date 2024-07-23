@@ -11,7 +11,7 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 
-import java.net.http.HttpClient;
+
 import java.util.ArrayList;
 import java.util.List;
 

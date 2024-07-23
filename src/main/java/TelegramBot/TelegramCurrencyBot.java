@@ -16,8 +16,6 @@ import java.util.concurrent.TimeUnit;
 
 import static Constants.ConstansDev.*;
 
-import static Constants.ConstansDev.*;
-
 public class TelegramCurrencyBot extends TelegramLongPollingBot {
 
     HashMap<String, UserConfig> dataBase = new HashMap<>();
@@ -141,7 +139,7 @@ public class TelegramCurrencyBot extends TelegramLongPollingBot {
 
                 Runnable tast = (()->{
                     SendMessage sendMessage = new SendMessage();
-                    sendMessage.setText(CreatingKeyboards.stringWrapper("тут буде актуальний курс"));
+                    sendMessage.setText(currencySort.getInfo(userConfig));
                     sendMessage.setChatId(chatId);
 
                     try {
@@ -163,7 +161,7 @@ public class TelegramCurrencyBot extends TelegramLongPollingBot {
 
                 Runnable tast = (()->{
                     SendMessage sendMessage = new SendMessage();
-                    sendMessage.setText(CreatingKeyboards.stringWrapper("тут буде актуальний курс"));
+                    sendMessage.setText(currencySort.getInfo(userConfig));
                     sendMessage.setChatId(chatId);
 
                     try {
@@ -185,7 +183,7 @@ public class TelegramCurrencyBot extends TelegramLongPollingBot {
 
                 Runnable tast = (()->{
                     SendMessage sendMessage = new SendMessage();
-                    sendMessage.setText(CreatingKeyboards.stringWrapper("тут буде актуальний курс"));
+                    sendMessage.setText(currencySort.getInfo(userConfig));
                     sendMessage.setChatId(chatId);
 
                     try {
@@ -206,7 +204,7 @@ public class TelegramCurrencyBot extends TelegramLongPollingBot {
 
                 Runnable tast = (()->{
                     SendMessage sendMessage = new SendMessage();
-                    sendMessage.setText(CreatingKeyboards.stringWrapper("тут буде актуальний курс"));
+                    sendMessage.setText(currencySort.getInfo(userConfig));
                     sendMessage.setChatId(chatId);
 
                     try {
@@ -228,7 +226,7 @@ public class TelegramCurrencyBot extends TelegramLongPollingBot {
 
                 Runnable tast = (()->{
                     SendMessage sendMessage = new SendMessage();
-                    sendMessage.setText(CreatingKeyboards.stringWrapper("тут буде актуальний курс"));
+                    sendMessage.setText(currencySort.getInfo(userConfig));
                     sendMessage.setChatId(chatId);
 
                     try {
@@ -249,7 +247,7 @@ public class TelegramCurrencyBot extends TelegramLongPollingBot {
 
                 Runnable tast = (()->{
                     SendMessage sendMessage = new SendMessage();
-                    sendMessage.setText(CreatingKeyboards.stringWrapper("тут буде актуальний курс"));
+                    sendMessage.setText(currencySort.getInfo(userConfig));
                     sendMessage.setChatId(chatId);
 
                     try {
@@ -270,7 +268,7 @@ public class TelegramCurrencyBot extends TelegramLongPollingBot {
 
                 Runnable tast = (()->{
                     SendMessage sendMessage = new SendMessage();
-                    sendMessage.setText(CreatingKeyboards.stringWrapper("тут буде актуальний курс"));
+                    sendMessage.setText(currencySort.getInfo(userConfig));
                     sendMessage.setChatId(chatId);
 
                     try {
@@ -292,7 +290,7 @@ public class TelegramCurrencyBot extends TelegramLongPollingBot {
 
                 Runnable tast = (()->{
                     SendMessage sendMessage = new SendMessage();
-                    sendMessage.setText(CreatingKeyboards.stringWrapper("тут буде актуальний курс"));
+                    sendMessage.setText(currencySort.getInfo(userConfig));
                     sendMessage.setChatId(chatId);
 
                     try {
@@ -313,7 +311,7 @@ public class TelegramCurrencyBot extends TelegramLongPollingBot {
 
                 Runnable tast = (()->{
                     SendMessage sendMessage = new SendMessage();
-                    sendMessage.setText(CreatingKeyboards.stringWrapper("тут буде актуальний курс"));
+                    sendMessage.setText(currencySort.getInfo(userConfig));
                     sendMessage.setChatId(chatId);
 
                     try {
@@ -334,7 +332,7 @@ public class TelegramCurrencyBot extends TelegramLongPollingBot {
 
                 Runnable tast = (()->{
                     SendMessage sendMessage = new SendMessage();
-                    sendMessage.setText(CreatingKeyboards.stringWrapper("тут буде актуальний курс"));
+                    sendMessage.setText(currencySort.getInfo(userConfig));
                     sendMessage.setChatId(chatId);
 
                     try {
@@ -372,12 +370,12 @@ public class TelegramCurrencyBot extends TelegramLongPollingBot {
 
     @Override
     public String getBotUsername() {
-        return "JavaCurrency123Bot";
+        return "ShelduedSenderBot";
     }
 
     @Override
     public String getBotToken() {
-        return  "7434436728:AAGSSBb--F8Q9TZwkh1Ntdw7gWpEmXuX0Ps";
+        return  "6695346541:AAHMVAu5RwQ3adakniu_cFBvGF5wad_f7c8";
     }
 
     private static boolean IsMessagePresent(Update update) {
