@@ -16,6 +16,8 @@ import java.util.concurrent.TimeUnit;
 
 import static Constants.ConstansDev.*;
 
+import static Constants.ConstansDev.*;
+
 public class TelegramCurrencyBot extends TelegramLongPollingBot {
 
     HashMap<String, UserConfig> dataBase = new HashMap<>();
@@ -96,38 +98,113 @@ public class TelegramCurrencyBot extends TelegramLongPollingBot {
                 message.setReplyMarkup(keyboards.createDecimalPlacesKeyboard(userConfig));
             }
             if (callbackQuery.getData().equals(DIGITS_AFTER_DECIMAL2)) {
-                if (userConfig.getDecimalPlaces().contains("2")) {
-                    userConfig.removeDigitsAfterDecimalPlace("2");
-                    userConfig.setDecimal(1);
-                } else {
-                    userConfig.addDigitsAfterDecimalPlace("2");
-                    userConfig.setDecimal(2);
-                }
-                message.setText(CreatingKeyboards.stringWrapper("Значення встановлено: 2 знаки після коми"));
-                message.setText(CreatingKeyboards.stringWrapper("Налаштування"));
-                message.setReplyMarkup(keyboards.createSettingsKeyboard());
-            } else if (callbackQuery.getData().equals(DIGITS_AFTER_DECIMAL3)) {
-                if (userConfig.getDecimalPlaces().contains("3")) {
-                    userConfig.removeDigitsAfterDecimalPlace("3");
-                    userConfig.setDecimal(1);
-                } else {
-                    userConfig.addDigitsAfterDecimalPlace("3");
-                    userConfig.setDecimal(3);
-                }
-                message.setText(CreatingKeyboards.stringWrapper("Значення встановлено: 3 знаки після коми"));
-                message.setText(CreatingKeyboards.stringWrapper("Налаштування"));
-                message.setReplyMarkup(keyboards.createSettingsKeyboard());
-            } else if (callbackQuery.getData().equals(DIGITS_AFTER_DECIMAL4)) {
-                if (userConfig.getDecimalPlaces().contains("4")) {
+                if(userConfig.getDecimalPlaces().contains("4")) {
                     userConfig.removeDigitsAfterDecimalPlace("4");
-                    userConfig.setDecimal(1);
-                } else {
-                    userConfig.addDigitsAfterDecimalPlace("4");
-                    userConfig.setDecimal(4);
+                    if (userConfig.getDecimalPlaces().contains("2")) {
+                        userConfig.removeDigitsAfterDecimalPlace("2");
+                        userConfig.setDecimal(1);
+                    } else {
+                        userConfig.addDigitsAfterDecimalPlace("2");
+                        userConfig.setDecimal(2);
+                    }
+                    message.setText(CreatingKeyboards.stringWrapper("Налаштування"));
+                    message.setReplyMarkup(keyboards.createSettingsKeyboard());
                 }
-                message.setText(CreatingKeyboards.stringWrapper("Значення встановлено: 4 знаки після коми"));
-                message.setText(CreatingKeyboards.stringWrapper("Налаштування"));
-                message.setReplyMarkup(keyboards.createSettingsKeyboard());
+                else if (userConfig.getDecimalPlaces().contains("3")) {
+                    userConfig.removeDigitsAfterDecimalPlace("3");
+                    if (userConfig.getDecimalPlaces().contains("2")) {
+                        userConfig.removeDigitsAfterDecimalPlace("2");
+                        userConfig.setDecimal(1);
+                    } else {
+                        userConfig.addDigitsAfterDecimalPlace("2");
+                        userConfig.setDecimal(2);
+                    }
+                    message.setText(CreatingKeyboards.stringWrapper("Налаштування"));
+                    message.setReplyMarkup(keyboards.createSettingsKeyboard());
+                }
+                else {
+                    if (userConfig.getDecimalPlaces().contains("2")) {
+                        userConfig.removeDigitsAfterDecimalPlace("2");
+                        userConfig.setDecimal(1);
+                    } else {
+                        userConfig.addDigitsAfterDecimalPlace("2");
+                        userConfig.setDecimal(2);
+                    }
+                    message.setText(CreatingKeyboards.stringWrapper("Налаштування"));
+                    message.setReplyMarkup(keyboards.createSettingsKeyboard());
+                }
+            } else if (callbackQuery.getData().equals(DIGITS_AFTER_DECIMAL3)) {
+                if(userConfig.getDecimalPlaces().contains("2")) {
+                    userConfig.removeDigitsAfterDecimalPlace("2");
+                    if (userConfig.getDecimalPlaces().contains("3")) {
+                        userConfig.removeDigitsAfterDecimalPlace("3");
+                        userConfig.setDecimal(1);
+                    } else {
+                        userConfig.addDigitsAfterDecimalPlace("3");
+                        userConfig.setDecimal(3);
+                    }
+                    message.setText(CreatingKeyboards.stringWrapper("Налаштування"));
+                    message.setReplyMarkup(keyboards.createSettingsKeyboard());
+                }
+                else if (userConfig.getDecimalPlaces().contains("4")) {
+                    userConfig.removeDigitsAfterDecimalPlace("4");
+                    if (userConfig.getDecimalPlaces().contains("3")) {
+                        userConfig.removeDigitsAfterDecimalPlace("3");
+                        userConfig.setDecimal(1);
+                    } else {
+                        userConfig.addDigitsAfterDecimalPlace("3");
+                        userConfig.setDecimal(3);
+                    }
+                    message.setText(CreatingKeyboards.stringWrapper("Налаштування"));
+                    message.setReplyMarkup(keyboards.createSettingsKeyboard());
+                }
+                else {
+                    if (userConfig.getDecimalPlaces().contains("4")) {
+                        userConfig.removeDigitsAfterDecimalPlace("4");
+                        userConfig.setDecimal(1);
+                    } else {
+                        userConfig.addDigitsAfterDecimalPlace("4");
+                        userConfig.setDecimal(3);
+                    }
+                    message.setText(CreatingKeyboards.stringWrapper("Налаштування"));
+                    message.setReplyMarkup(keyboards.createSettingsKeyboard());
+                }
+            } else if (callbackQuery.getData().equals(DIGITS_AFTER_DECIMAL4)) {
+                if(userConfig.getDecimalPlaces().contains("2")) {
+                    userConfig.removeDigitsAfterDecimalPlace("2");
+                    if (userConfig.getDecimalPlaces().contains("4")) {
+                        userConfig.removeDigitsAfterDecimalPlace("4");
+                        userConfig.setDecimal(1);
+                    } else {
+                        userConfig.addDigitsAfterDecimalPlace("4");
+                        userConfig.setDecimal(4);
+                    }
+                    message.setText(CreatingKeyboards.stringWrapper("Налаштування"));
+                    message.setReplyMarkup(keyboards.createSettingsKeyboard());
+                }
+                else if (userConfig.getDecimalPlaces().contains("3")) {
+                    userConfig.removeDigitsAfterDecimalPlace("3");
+                    if (userConfig.getDecimalPlaces().contains("4")) {
+                        userConfig.removeDigitsAfterDecimalPlace("4");
+                        userConfig.setDecimal(1);
+                    } else {
+                        userConfig.addDigitsAfterDecimalPlace("4");
+                        userConfig.setDecimal(4);
+                    }
+                    message.setText(CreatingKeyboards.stringWrapper("Налаштування"));
+                    message.setReplyMarkup(keyboards.createSettingsKeyboard());
+                }
+                else {
+                    if (userConfig.getDecimalPlaces().contains("4")) {
+                        userConfig.removeDigitsAfterDecimalPlace("4");
+                        userConfig.setDecimal(1);
+                    } else {
+                        userConfig.addDigitsAfterDecimalPlace("4");
+                        userConfig.setDecimal(4);
+                    }
+                    message.setText(CreatingKeyboards.stringWrapper("Налаштування"));
+                    message.setReplyMarkup(keyboards.createSettingsKeyboard());
+                }
             }
             if (callbackQuery.getData().equals("9:00")){
                 newTime = LocalTime.of(9,0);
@@ -370,12 +447,12 @@ public class TelegramCurrencyBot extends TelegramLongPollingBot {
 
     @Override
     public String getBotUsername() {
-        return null;
+        return "ShelduedSenderBot";
     }
 
     @Override
     public String getBotToken() {
-        return  null;
+        return  "6695346541:AAHMVAu5RwQ3adakniu_cFBvGF5wad_f7c8";
     }
 
     private static boolean IsMessagePresent(Update update) {
