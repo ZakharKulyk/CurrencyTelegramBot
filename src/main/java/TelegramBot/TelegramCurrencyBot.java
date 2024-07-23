@@ -159,11 +159,11 @@ public class TelegramCurrencyBot extends TelegramLongPollingBot {
                     message.setReplyMarkup(keyboards.createSettingsKeyboard());
                 }
                 else {
-                    if (userConfig.getDecimalPlaces().contains("4")) {
-                        userConfig.removeDigitsAfterDecimalPlace("4");
+                    if (userConfig.getDecimalPlaces().contains("3")) {
+                        userConfig.removeDigitsAfterDecimalPlace("3");
                         userConfig.setDecimal(1);
                     } else {
-                        userConfig.addDigitsAfterDecimalPlace("4");
+                        userConfig.addDigitsAfterDecimalPlace("3");
                         userConfig.setDecimal(3);
                     }
                     message.setText(CreatingKeyboards.stringWrapper("Налаштування"));
