@@ -96,12 +96,14 @@ public class TelegramCurrencyBot extends TelegramLongPollingBot {
                 message.setText(CreatingKeyboards.stringWrapper("Оберіть валюту"));
                 message.setReplyMarkup(keyboards.createCurrencyKeyboard(userConfig));
             }
-            if (callbackQuery.getData().equals(DOLLAR)){
-                if (userConfig.getCurrentCurrencies().contains(DOLLAR)){
-                    userConfig.getCurrentCurrencies().remove(DOLLAR);
+            if (callbackQuery.getData().equals(DOLLAR)) {
+                if (userConfig.getCurrentCurrencies().contains(DOLLAR)) {
+                    userConfig.deleteCurrency(DOLLAR);
+                } else {
+                    userConfig.addCurrency(DOLLAR);
                 }
-                userConfig.addCurrency(DOLLAR);
-
+                message.setText(CreatingKeyboards.stringWrapper("Налаштування"));
+                message.setReplyMarkup(keyboards.createSettingsKeyboard());
             }
 
             if(callbackQuery.getData().equals(EURO)){
@@ -114,15 +116,7 @@ public class TelegramCurrencyBot extends TelegramLongPollingBot {
                 message.setReplyMarkup(keyboards.createSettingsKeyboard());
             }
 
-            if(callbackQuery.getData().equals(DOLLAR)){
-                if (userConfig.getCurrentCurrencies().contains(DOLLAR)) {
-                    userConfig.deleteCurrency(DOLLAR);
-                } else {
-                    userConfig.addCurrency(DOLLAR);
-                }
-                message.setText(CreatingKeyboards.stringWrapper("Налаштування"));
-                message.setReplyMarkup(keyboards.createSettingsKeyboard());
-            }
+
 
 
             if (callbackQuery.getData().equals(DIGITS_AFTER_DECIMAL_CALLBACK_DATA)) {
