@@ -249,6 +249,7 @@ public class TelegramCurrencyBot extends TelegramLongPollingBot {
                 Runnable tast = (()->{
                     SendMessage sendMessage = new SendMessage();
                     sendMessage.setText(currencySort.getInfo(userConfig));
+                    sendMessage.setReplyMarkup(keyboards.createMainKeyboard());
                     sendMessage.setChatId(chatId);
 
                     try {
@@ -271,6 +272,7 @@ public class TelegramCurrencyBot extends TelegramLongPollingBot {
                 Runnable tast = (()->{
                     SendMessage sendMessage = new SendMessage();
                     sendMessage.setText(currencySort.getInfo(userConfig));
+                    sendMessage.setReplyMarkup(keyboards.createMainKeyboard());
                     sendMessage.setChatId(chatId);
 
                     try {
@@ -293,6 +295,7 @@ public class TelegramCurrencyBot extends TelegramLongPollingBot {
                 Runnable tast = (()->{
                     SendMessage sendMessage = new SendMessage();
                     sendMessage.setText(currencySort.getInfo(userConfig));
+                    sendMessage.setReplyMarkup(keyboards.createMainKeyboard());
                     sendMessage.setChatId(chatId);
 
                     try {
@@ -314,6 +317,7 @@ public class TelegramCurrencyBot extends TelegramLongPollingBot {
                 Runnable tast = (()->{
                     SendMessage sendMessage = new SendMessage();
                     sendMessage.setText(currencySort.getInfo(userConfig));
+                    sendMessage.setReplyMarkup(keyboards.createMainKeyboard());
                     sendMessage.setChatId(chatId);
 
                     try {
@@ -336,6 +340,7 @@ public class TelegramCurrencyBot extends TelegramLongPollingBot {
                 Runnable tast = (()->{
                     SendMessage sendMessage = new SendMessage();
                     sendMessage.setText(currencySort.getInfo(userConfig));
+                    sendMessage.setReplyMarkup(keyboards.createMainKeyboard());
                     sendMessage.setChatId(chatId);
 
                     try {
@@ -357,6 +362,7 @@ public class TelegramCurrencyBot extends TelegramLongPollingBot {
                 Runnable tast = (()->{
                     SendMessage sendMessage = new SendMessage();
                     sendMessage.setText(currencySort.getInfo(userConfig));
+                    sendMessage.setReplyMarkup(keyboards.createMainKeyboard());
                     sendMessage.setChatId(chatId);
 
                     try {
@@ -378,6 +384,7 @@ public class TelegramCurrencyBot extends TelegramLongPollingBot {
                 Runnable tast = (()->{
                     SendMessage sendMessage = new SendMessage();
                     sendMessage.setText(currencySort.getInfo(userConfig));
+                    sendMessage.setReplyMarkup(keyboards.createMainKeyboard());
                     sendMessage.setChatId(chatId);
 
                     try {
@@ -400,6 +407,7 @@ public class TelegramCurrencyBot extends TelegramLongPollingBot {
                 Runnable tast = (()->{
                     SendMessage sendMessage = new SendMessage();
                     sendMessage.setText(currencySort.getInfo(userConfig));
+                    sendMessage.setReplyMarkup(keyboards.createMainKeyboard());
                     sendMessage.setChatId(chatId);
 
                     try {
@@ -421,6 +429,7 @@ public class TelegramCurrencyBot extends TelegramLongPollingBot {
                 Runnable tast = (()->{
                     SendMessage sendMessage = new SendMessage();
                     sendMessage.setText(currencySort.getInfo(userConfig));
+                    sendMessage.setReplyMarkup(keyboards.createMainKeyboard());
                     sendMessage.setChatId(chatId);
 
                     try {
@@ -442,6 +451,7 @@ public class TelegramCurrencyBot extends TelegramLongPollingBot {
                 Runnable tast = (()->{
                     SendMessage sendMessage = new SendMessage();
                     sendMessage.setText(currencySort.getInfo(userConfig));
+                    sendMessage.setReplyMarkup(keyboards.createMainKeyboard());
                     sendMessage.setChatId(chatId);
 
                     try {
