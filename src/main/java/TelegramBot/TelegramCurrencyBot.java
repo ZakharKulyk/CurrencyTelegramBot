@@ -92,6 +92,38 @@ public class TelegramCurrencyBot extends TelegramLongPollingBot {
               message.setText(currencySort.getInfo(userConfig));
               message.setReplyMarkup(keyboards.createMainKeyboard());
             }
+            if(callbackQuery.getData().equals(CURRENCIES)){
+                message.setText(CreatingKeyboards.stringWrapper("Оберіть валюту"));
+                message.setReplyMarkup(keyboards.createCurrencyKeyboard(userConfig));
+            }
+            if (callbackQuery.getData().equals(DOLLAR)){
+                if (userConfig.getCurrentCurrencies().contains(DOLLAR)){
+                    userConfig.getCurrentCurrencies().remove(DOLLAR);
+                }
+                userConfig.addCurrency(DOLLAR);
+
+            }
+
+            if(callbackQuery.getData().equals(EURO)){
+                if (userConfig.getCurrentCurrencies().contains(EURO)) {
+                    userConfig.deleteCurrency(EURO);
+                } else {
+                    userConfig.addCurrency(EURO);
+                }
+                message.setText(CreatingKeyboards.stringWrapper("Налаштування"));
+                message.setReplyMarkup(keyboards.createSettingsKeyboard());
+            }
+
+            if(callbackQuery.getData().equals(DOLLAR)){
+                if (userConfig.getCurrentCurrencies().contains(DOLLAR)) {
+                    userConfig.deleteCurrency(DOLLAR);
+                } else {
+                    userConfig.addCurrency(DOLLAR);
+                }
+                message.setText(CreatingKeyboards.stringWrapper("Налаштування"));
+                message.setReplyMarkup(keyboards.createSettingsKeyboard());
+            }
+
 
             if (callbackQuery.getData().equals(DIGITS_AFTER_DECIMAL_CALLBACK_DATA)) {
                 message.setText(CreatingKeyboards.stringWrapper("Вкажіть кількість знаків після коми"));
@@ -447,12 +479,12 @@ public class TelegramCurrencyBot extends TelegramLongPollingBot {
 
     @Override
     public String getBotUsername() {
-        return null;
+        return "ShelduedSenderBot";
     }
 
     @Override
     public String getBotToken() {
-        return  null;
+        return  "6695346541:AAHMVAu5RwQ3adakniu_cFBvGF5wad_f7c8";
     }
 
     private static boolean IsMessagePresent(Update update) {
