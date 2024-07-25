@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
 
 import static Constants.ConstansDev.*;
 
-import static Constants.ConstansDev.*;
+
 
 public class TelegramCurrencyBot extends TelegramLongPollingBot {
 
@@ -483,12 +483,12 @@ public class TelegramCurrencyBot extends TelegramLongPollingBot {
 
     @Override
     public String getBotUsername() {
-        return null;
+        return "ShelduedSenderBot";
     }
 
     @Override
     public String getBotToken() {
-        return  null;
+        return  "6695346541:AAHMVAu5RwQ3adakniu_cFBvGF5wad_f7c8";
     }
 
     private static boolean IsMessagePresent(Update update) {
