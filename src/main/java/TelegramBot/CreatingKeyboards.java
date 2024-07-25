@@ -8,6 +8,7 @@ import UserConfiguration.UserConfig;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -233,6 +234,32 @@ public class CreatingKeyboards {
         return inlineKeyboardMarkup;
     }
 
+    public  InlineKeyboardMarkup createCurrencyKeyboard(UserConfig userConfig){
+        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
+
+        InlineKeyboardButton dollar = new InlineKeyboardButton();
+        InlineKeyboardButton euro = new InlineKeyboardButton();
+
+        dollar.setText(isContain(userConfig.getCurrentCurrencies(),DOLLAR));
+        dollar.setCallbackData(DOLLAR);
+
+        euro.setText(isContain(userConfig.getCurrentCurrencies(), EURO));
+        euro.setCallbackData(EURO);
+
+        List<List<InlineKeyboardButton>> rows = new ArrayList<>();
+        List<InlineKeyboardButton>row = new ArrayList<>();
+
+        row.add(dollar);
+        row.add(euro);
+
+        rows.add(row);
+
+        inlineKeyboardMarkup.setKeyboard(rows);
+
+        return inlineKeyboardMarkup;
+
+    }
+
 
     public static String stringWrapper(String str){
         String result = "";
@@ -243,6 +270,8 @@ public class CreatingKeyboards {
         }
         return result;
     }
+
+
     public static String isContain(List<String> bankList, String word){
         if (bankList.contains(word)){
             return stringWrapper("✅") + word;

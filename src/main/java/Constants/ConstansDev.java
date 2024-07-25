@@ -19,5 +19,6 @@ public class ConstansDev {
     public  static  final  String DOLLAR = "USD";
     public  static  final  String EURO = "EUR";
     public  static  final String HRYVNA = "UAH";
+    public  static  final  String CURRENCIES = "Currencies";
 
 }
