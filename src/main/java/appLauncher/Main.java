@@ -1,8 +1,7 @@
-package AppLauncher;
+package appLauncher;
 
 
-
-import TelegramBot.TelegramCurrencyBot;
+import telegramBot.TelegramCurrencyBot;
 
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;

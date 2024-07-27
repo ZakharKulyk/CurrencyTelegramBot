@@ -1,4 +1,4 @@
-package Parce;
+package parce;
 
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -16,40 +16,37 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NBUParcer  {
-        public List<NbuDto> getRequest(){
+import static сonstants.ConstantForDevProcess.NBU_URL_API;
+
+public class NBUParcer {
+    private static final ObjectMapper mapper = new ObjectMapper();
+
+    public List<NbuDto> getRequest() {
         CloseableHttpClient client = HttpClients.createDefault();
-        try{
-            HttpGet request = new HttpGet("https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?json");
+        try {
+            HttpGet request = new HttpGet(NBU_URL_API);
             CloseableHttpResponse response = client.execute(request);
             try {
-                if(response.getStatusLine().getStatusCode() == 200){
+                if (response.getStatusLine().getStatusCode() == 200) {
                     HttpEntity entity = response.getEntity();
-                    if(entity != null){
+                    if (entity != null) {
                         String result = EntityUtils.toString(entity, StandardCharsets.UTF_8);
-                        ObjectMapper mapper = new ObjectMapper();
-                        List<NbuDto> nbu = mapper.readValue(result, new TypeReference<List<NbuDto>>(){});
+                        List<NbuDto> nbu = mapper.readValue(result, new TypeReference<List<NbuDto>>() {
+                        });
                         return nbu;
                     }
+                } else {
+                    System.out.println("Erorr: " + response.getStatusLine().getStatusCode());
                 }
-                else {
-                    System.out.println("Erorr: "+response.getStatusLine().getStatusCode());
-                }
-            }
-            finally {
+            } finally {
                 response.close();
             }
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-        }
-        finally {
-            try
-            {
+        } finally {
+            try {
                 client.close();
-            }
-            catch (Exception e)
-            {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }

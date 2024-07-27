@@ -1,4 +1,4 @@
-package Parce;
+package parce;
 
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -16,47 +16,37 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.apache.http.impl.client.HttpClients.*;
+import static сonstants.ConstantForDevProcess.MONO_URL_API;
 
 public class MonoParcer {
+    private final static ObjectMapper objectMapper = new ObjectMapper();
+
     public List<MonoDto> getRequest() {
         CloseableHttpClient client = createDefault();
-        try
-        {
-            HttpGet request = new HttpGet("https://api.monobank.ua/bank/currency");
-            CloseableHttpResponse response  = client.execute(request);
-            try
-            {
-                if(response.getStatusLine().getStatusCode() == 200)
-                {
+        try {
+            HttpGet request = new HttpGet(MONO_URL_API);
+            CloseableHttpResponse response = client.execute(request);
+            try {
+                if (response.getStatusLine().getStatusCode() == 200) {
                     HttpEntity entity = response.getEntity();
-                    if(entity != null)
-                    {
-                        String result  = EntityUtils.toString(entity);
-                        ObjectMapper objectMapper = new ObjectMapper();
-                        List<MonoDto> mono = objectMapper.readValue(result, new TypeReference<List<MonoDto>>(){});
+                    if (entity != null) {
+                        String result = EntityUtils.toString(entity);
+                        List<MonoDto> mono = objectMapper.readValue(result, new TypeReference<List<MonoDto>>() {
+                        });
                         return mono;
                     }
-                }
-                else
-                {
+                } else {
                     System.out.println("Error: " + response.getStatusLine().getStatusCode());
                 }
-            }
-            finally {
+            } finally {
                 response.close();
             }
-        }
-        catch (Exception e)
-        {
-        e.printStackTrace();
-        }
-        finally {
-            try
-            {
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
                 client.close();
-            }
-            catch(Exception e)
-            {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
