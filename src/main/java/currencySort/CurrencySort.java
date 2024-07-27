@@ -1,10 +1,10 @@
-package CurrencySort;
+package currencySort;
 
-import Parce.MonoParcer;
-import Parce.NBUParcer;
-import Parce.PrivatParcer;
-import TelegramBot.CreatingKeyboards;
-import UserConfiguration.UserConfig;
+import parce.MonoParcer;
+import parce.NBUParcer;
+import parce.PrivatParcer;
+import telegramBot.CreatingKeyboards;
+import userConfiguration.UserConfig;
 
 import dto.MonoDto;
 import dto.NbuDto;
@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 
-import static Constants.ConstansDev.*;
+import static сonstants.ConstantForDevProcess.*;
 
 public class CurrencySort {
     private BigDecimal PrivateBuyUsd;
@@ -103,7 +103,7 @@ public class CurrencySort {
     }
 
 
-    public String getInfo(UserConfig userConfig) {
+    public String getExchangeRate(UserConfig userConfig) {
         if (userConfig.getBanks().isEmpty()) {
             userConfig.addBank(PRIVAT_BANK);
         }
@@ -118,7 +118,7 @@ public class CurrencySort {
         StringBuilder stringBuilder = new StringBuilder();
         for (String bank : userConfig.getBanks()) {
             for (String currency : userConfig.getCurrentCurrencies()) {
-                List<BigDecimal> exactValues = test(bank, currency);
+                List<BigDecimal> exactValues = defineInfoByUserOptions(bank, currency);
                 stringBuilder.append("Курс у ")
                         .append(bank)
                         .append(" ")
@@ -135,7 +135,7 @@ public class CurrencySort {
         return CreatingKeyboards.stringWrapper(stringBuilder.toString());
     }
 
-    public List<BigDecimal> test(String bank, String currency) {
+    public List<BigDecimal> defineInfoByUserOptions(String bank, String currency) {
 
         if (bank.equals(PRIVAT_BANK)) {
             List<BigDecimal> result;

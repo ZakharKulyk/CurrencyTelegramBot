@@ -2,14 +2,14 @@ package dto;
 
 import java.math.BigDecimal;
 
-import static Constants.ConstansDev.NBU_BANK;
+import static сonstants.ConstantForDevProcess.NBU_BANK;
 
-public class NbuDto implements  Bank{
-    Long r030;
-    String txt;
-    BigDecimal rate;
-    String cc;
-    String exchangedate;
+public class NbuDto implements Bank {
+    private Long r030;
+    private String txt;
+    private BigDecimal rate;
+    private String cc;
+    private String exchangedate;
 
     public Long getR030() {
         return r030;

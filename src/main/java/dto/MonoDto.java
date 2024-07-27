@@ -3,24 +3,26 @@ package dto;
 
 import java.math.BigDecimal;
 
-import static Constants.ConstansDev.MONO_BANK;
+import static сonstants.ConstantForDevProcess.MONO_BANK;
 
-public class MonoDto implements  Bank{
+public class MonoDto implements Bank {
 
-    Long currencyCodeA;
-    Long currencyCodeB;
-    Long date;
-    BigDecimal rateSell;
-    BigDecimal rateBuy;
-    BigDecimal rateCross;
+    private Long currencyCodeA;
+    private Long currencyCodeB;
+    private Long date;
+    private BigDecimal rateSell;
+    private BigDecimal rateBuy;
+    private BigDecimal rateCross;
 
 
     public long getCurrencyCodeA() {
         return currencyCodeA;
     }
+
     public long getCurrencyCodeB() {
         return currencyCodeB;
     }
+
     public long getDate() {
         return date;
     }

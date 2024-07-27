@@ -1,7 +1,5 @@
-package UserConfiguration;
+package userConfiguration;
 
-
-import Constants.ConstansDev;
 
 import java.time.LocalTime;
 import java.util.ArrayList;

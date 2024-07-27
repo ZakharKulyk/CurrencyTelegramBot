@@ -2,13 +2,13 @@ package dto;
 
 import java.math.BigDecimal;
 
-import static Constants.ConstansDev.PRIVAT_BANK;
+import static сonstants.ConstantForDevProcess.PRIVAT_BANK;
 
-public class PrivatDto implements  Bank{
-    String ccy;
-    String base_ccy;
-    BigDecimal buy;
-    BigDecimal sale;
+public class PrivatDto implements Bank {
+    private String ccy;
+    private String base_ccy;
+    private BigDecimal buy;
+    private BigDecimal sale;
 
 
     public String getCcy() {

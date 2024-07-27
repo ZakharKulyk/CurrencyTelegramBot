@@ -1,4 +1,4 @@
-package Parce;
+package parce;
 
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -15,45 +15,37 @@ import org.apache.http.util.EntityUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PrivatParcer  {
-    public List<PrivatDto> getRequest(){
+import static сonstants.ConstantForDevProcess.PRIVAT_URL_API;
+
+public class PrivatParcer {
+    private static final ObjectMapper mapper = new ObjectMapper();
+
+    public List<PrivatDto> getRequest() {
         CloseableHttpClient client = HttpClients.createDefault();
-        try
-        {
-            HttpGet request = new HttpGet("https://api.privatbank.ua/p24api/pubinfo?exchange&coursid=5");
+        try {
+            HttpGet request = new HttpGet(PRIVAT_URL_API);
             CloseableHttpResponse response = client.execute(request);
-            try
-            {
-                if(response.getStatusLine().getStatusCode() == 200) {
+            try {
+                if (response.getStatusLine().getStatusCode() == 200) {
                     HttpEntity entity = response.getEntity();
-                    if (entity != null)
-                    {
+                    if (entity != null) {
                         String result = EntityUtils.toString(entity);
-                        ObjectMapper mapper = new ObjectMapper();
-                        List<PrivatDto> privatDtos = mapper.readValue(result, new TypeReference<List<PrivatDto>>(){});
+                        List<PrivatDto> privatDtos = mapper.readValue(result, new TypeReference<List<PrivatDto>>() {
+                        });
                         return privatDtos;
                     }
-                }
-                else
-                {
+                } else {
                     System.out.println("Error: " + response.getStatusLine().getStatusCode());
                 }
-            }
-            finally {
+            } finally {
                 response.close();
             }
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
-        }
-        finally {
-            try
-            {
+        } finally {
+            try {
                 client.close();
-            }
-            catch (Exception e)
-            {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 
