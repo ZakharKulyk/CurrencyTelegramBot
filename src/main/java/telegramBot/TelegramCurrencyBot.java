@@ -1,6 +1,5 @@
 package telegramBot;
 
-
 import currencySort.CurrencySort;
 import userConfiguration.UserConfig;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -9,467 +8,278 @@ import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
-
 import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 import static сonstants.ConstantForDevProcess.*;
 
-
 public class TelegramCurrencyBot extends TelegramLongPollingBot {
 
-    HashMap<String, UserConfig> dataBase = new HashMap<>();
+    private final HashMap<String, UserConfig> dataBase = new HashMap<>();
+    private final CurrencySort currencySort = new CurrencySort();
+    private final CreatingKeyboards keyboards = new CreatingKeyboards();
 
     @Override
     public void onUpdateReceived(Update update) {
-        CurrencySort currencySort = new CurrencySort();
-        SendMessage message = new SendMessage();
-        CreatingKeyboards keyboards = new CreatingKeyboards();
-        if (IsMessagePresent(update) && update.getMessage().getText().equalsIgnoreCase("/start")) {
-            String chatId = update.getMessage().getChatId().toString();
-            message.setChatId(chatId);
-            message.setText(CreatingKeyboards.stringWrapper("Ласкаво просимо. Цей бот допоможе відслідковувати актуальні курси валют"));
-            message.setReplyMarkup(keyboards.createMainKeyboard());
-            if (!dataBase.containsKey(chatId)) {
-                dataBase.put(chatId, new UserConfig());
-            }
-
-            try {
-                execute(message);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        if (isMessagePresent(update) && update.getMessage().getText().equalsIgnoreCase("/start")) {
+            handleStartCommand(update);
         } else if (update.hasCallbackQuery()) {
-            CallbackQuery callbackQuery = update.getCallbackQuery();
-            String chatId = callbackQuery.getMessage().getChatId().toString();
-            message.setChatId(chatId);
-            UserConfig userConfig = dataBase.get(chatId);
-            long delay;
-            LocalTime newTime = null;
-
-            if (callbackQuery.getData().equals(SETTINGS)) {
-                message.setText(CreatingKeyboards.stringWrapper("Налаштування"));
-                message.setReplyMarkup(keyboards.createSettingsKeyboard());
-            }
-            if (callbackQuery.getData().equals(NOTIFICATION_TIME)) {
-                message.setText(CreatingKeyboards.stringWrapper("Оберіть час для повідомлення"));
-                message.setReplyMarkup(keyboards.createTimeNotificationKeyboard());
-            }
-            if (callbackQuery.getData().equals(BANK)) {
-                message.setText(CreatingKeyboards.stringWrapper("Оберіть банк: "));
-                message.setReplyMarkup(keyboards.bankKeyboard(userConfig));
-            }
-            if (callbackQuery.getData().equals(MONO_BANK)) {
-                if (userConfig.getBanks().contains(MONO_BANK)) {
-                    userConfig.removeBank(MONO_BANK);
-                } else {
-                    userConfig.addBank(MONO_BANK);
-                }
-                message.setText(CreatingKeyboards.stringWrapper("Налаштування"));
-                message.setReplyMarkup(keyboards.createSettingsKeyboard());
-            }
-            if (callbackQuery.getData().equals(PRIVAT_BANK)) {
-                if (userConfig.getBanks().contains(PRIVAT_BANK)) {
-                    userConfig.removeBank(PRIVAT_BANK);
-                } else {
-                    userConfig.addBank(PRIVAT_BANK);
-                }
-                message.setText(CreatingKeyboards.stringWrapper("Налаштування"));
-                message.setReplyMarkup(keyboards.createSettingsKeyboard());
-            }
-            if (callbackQuery.getData().equals(NBU_CALLBACK_DATA)) {
-                if (userConfig.getBanks().contains(CreatingKeyboards.stringWrapper(NBU_BANK))) {
-                    userConfig.removeBank(CreatingKeyboards.stringWrapper(NBU_BANK));
-                } else {
-                    userConfig.addBank(CreatingKeyboards.stringWrapper(NBU_BANK));
-                }
-                message.setText(CreatingKeyboards.stringWrapper("Налаштування"));
-                message.setReplyMarkup(keyboards.createSettingsKeyboard());
-            }
-            if (callbackQuery.getData().equals(GET_INFO_CALLBACK_DATA)) {
-                message.setText(currencySort.getExchangeRate(userConfig));
-                message.setReplyMarkup(keyboards.createMainKeyboard());
-            }
-            if (callbackQuery.getData().equals(CURRENCIES)) {
-                message.setText(CreatingKeyboards.stringWrapper("Оберіть валюту"));
-                message.setReplyMarkup(keyboards.createCurrencyKeyboard(userConfig));
-            }
-            if (callbackQuery.getData().equals(DOLLAR)) {
-                if (userConfig.getCurrentCurrencies().contains(DOLLAR)) {
-                    userConfig.deleteCurrency(DOLLAR);
-                } else {
-                    userConfig.addCurrency(DOLLAR);
-                }
-                message.setText(CreatingKeyboards.stringWrapper("Налаштування"));
-                message.setReplyMarkup(keyboards.createSettingsKeyboard());
-            }
-
-            if (callbackQuery.getData().equals(EURO)) {
-                if (userConfig.getCurrentCurrencies().contains(EURO)) {
-                    userConfig.deleteCurrency(EURO);
-                } else {
-                    userConfig.addCurrency(EURO);
-                }
-                message.setText(CreatingKeyboards.stringWrapper("Налаштування"));
-                message.setReplyMarkup(keyboards.createSettingsKeyboard());
-            }
+            handleCallbackQuery(update.getCallbackQuery());
 
 
-            if (callbackQuery.getData().equals(DIGITS_AFTER_DECIMAL_CALLBACK_DATA)) {
-                message.setText(CreatingKeyboards.stringWrapper("Вкажіть кількість знаків після коми"));
-                message.setReplyMarkup(keyboards.createDecimalPlacesKeyboard(userConfig));
+        }
+    }
+
+    private void handleStartCommand(Update update) {
+        String chatId = update.getMessage().getChatId().toString();
+        SendMessage message = new SendMessage();
+        message.setChatId(chatId);
+        message.setText(CreatingKeyboards.stringWrapper("Ласкаво просимо. Цей бот допоможе відслідковувати актуальні курси валют"));
+        message.setReplyMarkup(keyboards.createMainKeyboard());
+
+        if (!dataBase.containsKey(chatId)) {
+            dataBase.put(chatId, new UserConfig());
+        }
+
+        try {
+            execute(message);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void handleCallbackQuery(CallbackQuery callbackQuery) {
+        String chatId = callbackQuery.getMessage().getChatId().toString();
+        SendMessage message = new SendMessage();
+        message.setChatId(chatId);
+        UserConfig userConfig = dataBase.get(chatId);
+
+        if (callbackQuery.getData().equals(DIGITS_AFTER_DECIMAL_CALLBACK_DATA)) {
+            message.setText(CreatingKeyboards.stringWrapper("Вкажіть кількість знаків після коми"));
+            message.setReplyMarkup(keyboards.createDecimalPlacesKeyboard(userConfig));
+        }
+        if (callbackQuery.getData().equals(DIGITS_AFTER_DECIMAL2)) {
+            if (userConfig.getDecimalPlaces().contains("4")) {
+                userConfig.removeDigitsAfterDecimalPlace("4");
+                if (userConfig.getDecimalPlaces().contains("2")) {
+                    userConfig.removeDigitsAfterDecimalPlace("2");
+                    userConfig.setDecimal(1);
+                } else {
+                    userConfig.addDigitsAfterDecimalPlace("2");
+                    userConfig.setDecimal(2);
+                }
+                message.setText(CreatingKeyboards.stringWrapper("Налаштування"));
+                message.setReplyMarkup(keyboards.createSettingsKeyboard());
+            } else if (userConfig.getDecimalPlaces().contains("3")) {
+                userConfig.removeDigitsAfterDecimalPlace("3");
+                if (userConfig.getDecimalPlaces().contains("2")) {
+                    userConfig.removeDigitsAfterDecimalPlace("2");
+                    userConfig.setDecimal(1);
+                } else {
+                    userConfig.addDigitsAfterDecimalPlace("2");
+                    userConfig.setDecimal(2);
+                }
+                message.setText(CreatingKeyboards.stringWrapper("Налаштування"));
+                message.setReplyMarkup(keyboards.createSettingsKeyboard());
+            } else {
+                if (userConfig.getDecimalPlaces().contains("2")) {
+                    userConfig.removeDigitsAfterDecimalPlace("2");
+                    userConfig.setDecimal(1);
+                } else {
+                    userConfig.addDigitsAfterDecimalPlace("2");
+                    userConfig.setDecimal(2);
+                }
+                message.setText(CreatingKeyboards.stringWrapper("Налаштування"));
+                message.setReplyMarkup(keyboards.createSettingsKeyboard());
             }
-            if (callbackQuery.getData().equals(DIGITS_AFTER_DECIMAL2)) {
+        } else if (callbackQuery.getData().equals(DIGITS_AFTER_DECIMAL3)) {
+            if (userConfig.getDecimalPlaces().contains("2")) {
+                userConfig.removeDigitsAfterDecimalPlace("2");
+                if (userConfig.getDecimalPlaces().contains("3")) {
+                    userConfig.removeDigitsAfterDecimalPlace("3");
+                    userConfig.setDecimal(1);
+                } else {
+                    userConfig.addDigitsAfterDecimalPlace("3");
+                    userConfig.setDecimal(3);
+                }
+                message.setText(CreatingKeyboards.stringWrapper("Налаштування"));
+                message.setReplyMarkup(keyboards.createSettingsKeyboard());
+            } else if (userConfig.getDecimalPlaces().contains("4")) {
+                userConfig.removeDigitsAfterDecimalPlace("4");
+                if (userConfig.getDecimalPlaces().contains("3")) {
+                    userConfig.removeDigitsAfterDecimalPlace("3");
+                    userConfig.setDecimal(1);
+                } else {
+                    userConfig.addDigitsAfterDecimalPlace("3");
+                    userConfig.setDecimal(3);
+                }
+                message.setText(CreatingKeyboards.stringWrapper("Налаштування"));
+                message.setReplyMarkup(keyboards.createSettingsKeyboard());
+            } else {
+                if (userConfig.getDecimalPlaces().contains("3")) {
+                    userConfig.removeDigitsAfterDecimalPlace("3");
+                    userConfig.setDecimal(1);
+                } else {
+                    userConfig.addDigitsAfterDecimalPlace("3");
+                    userConfig.setDecimal(3);
+                }
+                message.setText(CreatingKeyboards.stringWrapper("Налаштування"));
+                message.setReplyMarkup(keyboards.createSettingsKeyboard());
+            }
+        } else if (callbackQuery.getData().equals(DIGITS_AFTER_DECIMAL4)) {
+            if (userConfig.getDecimalPlaces().contains("2")) {
+                userConfig.removeDigitsAfterDecimalPlace("2");
                 if (userConfig.getDecimalPlaces().contains("4")) {
                     userConfig.removeDigitsAfterDecimalPlace("4");
-                    if (userConfig.getDecimalPlaces().contains("2")) {
-                        userConfig.removeDigitsAfterDecimalPlace("2");
-                        userConfig.setDecimal(1);
-                    } else {
-                        userConfig.addDigitsAfterDecimalPlace("2");
-                        userConfig.setDecimal(2);
-                    }
-                    message.setText(CreatingKeyboards.stringWrapper("Налаштування"));
-                    message.setReplyMarkup(keyboards.createSettingsKeyboard());
-                } else if (userConfig.getDecimalPlaces().contains("3")) {
-                    userConfig.removeDigitsAfterDecimalPlace("3");
-                    if (userConfig.getDecimalPlaces().contains("2")) {
-                        userConfig.removeDigitsAfterDecimalPlace("2");
-                        userConfig.setDecimal(1);
-                    } else {
-                        userConfig.addDigitsAfterDecimalPlace("2");
-                        userConfig.setDecimal(2);
-                    }
-                    message.setText(CreatingKeyboards.stringWrapper("Налаштування"));
-                    message.setReplyMarkup(keyboards.createSettingsKeyboard());
+                    userConfig.setDecimal(1);
                 } else {
-                    if (userConfig.getDecimalPlaces().contains("2")) {
-                        userConfig.removeDigitsAfterDecimalPlace("2");
-                        userConfig.setDecimal(1);
-                    } else {
-                        userConfig.addDigitsAfterDecimalPlace("2");
-                        userConfig.setDecimal(2);
-                    }
-                    message.setText(CreatingKeyboards.stringWrapper("Налаштування"));
-                    message.setReplyMarkup(keyboards.createSettingsKeyboard());
+                    userConfig.addDigitsAfterDecimalPlace("4");
+                    userConfig.setDecimal(4);
                 }
-            } else if (callbackQuery.getData().equals(DIGITS_AFTER_DECIMAL3)) {
-                if (userConfig.getDecimalPlaces().contains("2")) {
-                    userConfig.removeDigitsAfterDecimalPlace("2");
-                    if (userConfig.getDecimalPlaces().contains("3")) {
-                        userConfig.removeDigitsAfterDecimalPlace("3");
-                        userConfig.setDecimal(1);
-                    } else {
-                        userConfig.addDigitsAfterDecimalPlace("3");
-                        userConfig.setDecimal(3);
-                    }
-                    message.setText(CreatingKeyboards.stringWrapper("Налаштування"));
-                    message.setReplyMarkup(keyboards.createSettingsKeyboard());
-                } else if (userConfig.getDecimalPlaces().contains("4")) {
+                message.setText(CreatingKeyboards.stringWrapper("Налаштування"));
+                message.setReplyMarkup(keyboards.createSettingsKeyboard());
+            } else if (userConfig.getDecimalPlaces().contains("3")) {
+                userConfig.removeDigitsAfterDecimalPlace("3");
+                if (userConfig.getDecimalPlaces().contains("4")) {
                     userConfig.removeDigitsAfterDecimalPlace("4");
-                    if (userConfig.getDecimalPlaces().contains("3")) {
-                        userConfig.removeDigitsAfterDecimalPlace("3");
-                        userConfig.setDecimal(1);
-                    } else {
-                        userConfig.addDigitsAfterDecimalPlace("3");
-                        userConfig.setDecimal(3);
-                    }
-                    message.setText(CreatingKeyboards.stringWrapper("Налаштування"));
-                    message.setReplyMarkup(keyboards.createSettingsKeyboard());
+                    userConfig.setDecimal(1);
                 } else {
-                    if (userConfig.getDecimalPlaces().contains("3")) {
-                        userConfig.removeDigitsAfterDecimalPlace("3");
-                        userConfig.setDecimal(1);
-                    } else {
-                        userConfig.addDigitsAfterDecimalPlace("3");
-                        userConfig.setDecimal(3);
-                    }
-                    message.setText(CreatingKeyboards.stringWrapper("Налаштування"));
-                    message.setReplyMarkup(keyboards.createSettingsKeyboard());
+                    userConfig.addDigitsAfterDecimalPlace("4");
+                    userConfig.setDecimal(4);
                 }
-            } else if (callbackQuery.getData().equals(DIGITS_AFTER_DECIMAL4)) {
-                if (userConfig.getDecimalPlaces().contains("2")) {
-                    userConfig.removeDigitsAfterDecimalPlace("2");
-                    if (userConfig.getDecimalPlaces().contains("4")) {
-                        userConfig.removeDigitsAfterDecimalPlace("4");
-                        userConfig.setDecimal(1);
-                    } else {
-                        userConfig.addDigitsAfterDecimalPlace("4");
-                        userConfig.setDecimal(4);
-                    }
-                    message.setText(CreatingKeyboards.stringWrapper("Налаштування"));
-                    message.setReplyMarkup(keyboards.createSettingsKeyboard());
-                } else if (userConfig.getDecimalPlaces().contains("3")) {
-                    userConfig.removeDigitsAfterDecimalPlace("3");
-                    if (userConfig.getDecimalPlaces().contains("4")) {
-                        userConfig.removeDigitsAfterDecimalPlace("4");
-                        userConfig.setDecimal(1);
-                    } else {
-                        userConfig.addDigitsAfterDecimalPlace("4");
-                        userConfig.setDecimal(4);
-                    }
-                    message.setText(CreatingKeyboards.stringWrapper("Налаштування"));
-                    message.setReplyMarkup(keyboards.createSettingsKeyboard());
+                message.setText(CreatingKeyboards.stringWrapper("Налаштування"));
+                message.setReplyMarkup(keyboards.createSettingsKeyboard());
+            } else {
+                if (userConfig.getDecimalPlaces().contains("4")) {
+                    userConfig.removeDigitsAfterDecimalPlace("4");
+                    userConfig.setDecimal(1);
                 } else {
-                    if (userConfig.getDecimalPlaces().contains("4")) {
-                        userConfig.removeDigitsAfterDecimalPlace("4");
-                        userConfig.setDecimal(1);
-                    } else {
-                        userConfig.addDigitsAfterDecimalPlace("4");
-                        userConfig.setDecimal(4);
-                    }
-                    message.setText(CreatingKeyboards.stringWrapper("Налаштування"));
-                    message.setReplyMarkup(keyboards.createSettingsKeyboard());
+                    userConfig.addDigitsAfterDecimalPlace("4");
+                    userConfig.setDecimal(4);
                 }
-            }
-            if (callbackQuery.getData().equals("9:00")) {
-                newTime = LocalTime.of(9, 0);
-
-                userConfig.setTimeForNotification(newTime);
-                delay = userConfig.calculateDelay();
-                message.setText(CreatingKeyboards.stringWrapper("Актуальний курс буде надіслано о " + newTime.toString()));
+                message.setText(CreatingKeyboards.stringWrapper("Налаштування"));
                 message.setReplyMarkup(keyboards.createSettingsKeyboard());
-
-                Runnable tast = (() -> {
-                    SendMessage sendMessage = new SendMessage();
-                    sendMessage.setText(currencySort.getExchangeRate(userConfig));
-                    sendMessage.setReplyMarkup(keyboards.createMainKeyboard());
-                    sendMessage.setChatId(chatId);
-
-                    try {
-                        execute(sendMessage);
-                    } catch (TelegramApiException e) {
-                        throw new RuntimeException(e);
-                    }
-
-                });
-
-                userConfig.scheduleNotification(tast, delay, TimeUnit.DAYS.toSeconds(1), TimeUnit.SECONDS);
-            }
-            if (callbackQuery.getData().equals("10:00")) {
-                newTime = LocalTime.of(10, 0);
-                userConfig.setTimeForNotification(newTime);
-                delay = userConfig.calculateDelay();
-                message.setText(CreatingKeyboards.stringWrapper("Актуальний курс буде надіслано о " + newTime.toString()));
-                message.setReplyMarkup(keyboards.createSettingsKeyboard());
-
-                Runnable tast = (() -> {
-                    SendMessage sendMessage = new SendMessage();
-                    sendMessage.setText(currencySort.getExchangeRate(userConfig));
-                    sendMessage.setReplyMarkup(keyboards.createMainKeyboard());
-                    sendMessage.setChatId(chatId);
-
-                    try {
-                        execute(sendMessage);
-                    } catch (TelegramApiException e) {
-                        throw new RuntimeException(e);
-                    }
-
-                });
-
-                userConfig.scheduleNotification(tast, delay, TimeUnit.DAYS.toSeconds(1), TimeUnit.SECONDS);
-            }
-            if (callbackQuery.getData().equals("11:00")) {
-                newTime = LocalTime.of(11, 0);
-                userConfig.setTimeForNotification(newTime);
-                delay = userConfig.calculateDelay();
-                message.setText(CreatingKeyboards.stringWrapper("Актуальний курс буде надіслано о " + newTime.toString()));
-                message.setReplyMarkup(keyboards.createSettingsKeyboard());
-
-                Runnable tast = (() -> {
-                    SendMessage sendMessage = new SendMessage();
-                    sendMessage.setText(currencySort.getExchangeRate(userConfig));
-                    sendMessage.setReplyMarkup(keyboards.createMainKeyboard());
-                    sendMessage.setChatId(chatId);
-
-                    try {
-                        execute(sendMessage);
-                    } catch (TelegramApiException e) {
-                        throw new RuntimeException(e);
-                    }
-                });
-
-                userConfig.scheduleNotification(tast, delay, TimeUnit.DAYS.toSeconds(1), TimeUnit.SECONDS);
-            }
-            if (callbackQuery.getData().equals("12:00")) {
-                newTime = LocalTime.of(12, 00);
-                userConfig.setTimeForNotification(newTime);
-                delay = userConfig.calculateDelay();
-                message.setText(CreatingKeyboards.stringWrapper("Актуальний курс буде надіслано о " + newTime.toString()));
-                message.setReplyMarkup(keyboards.createSettingsKeyboard());
-
-                Runnable tast = (() -> {
-                    SendMessage sendMessage = new SendMessage();
-                    sendMessage.setText(currencySort.getExchangeRate(userConfig));
-                    sendMessage.setReplyMarkup(keyboards.createMainKeyboard());
-                    sendMessage.setChatId(chatId);
-
-                    try {
-                        execute(sendMessage);
-                    } catch (TelegramApiException e) {
-                        throw new RuntimeException(e);
-                    }
-                });
-
-                userConfig.scheduleNotification(tast, delay, TimeUnit.DAYS.toSeconds(1), TimeUnit.SECONDS);
-            }
-
-            if (callbackQuery.getData().equals("13:00")) {
-                newTime = LocalTime.of(13, 00);
-                userConfig.setTimeForNotification(newTime);
-                delay = userConfig.calculateDelay();
-                message.setText(CreatingKeyboards.stringWrapper("Актуальний курс буде надіслано о " + newTime.toString()));
-                message.setReplyMarkup(keyboards.createSettingsKeyboard());
-
-                Runnable tast = (() -> {
-                    SendMessage sendMessage = new SendMessage();
-                    sendMessage.setText(currencySort.getExchangeRate(userConfig));
-                    sendMessage.setReplyMarkup(keyboards.createMainKeyboard());
-                    sendMessage.setChatId(chatId);
-
-                    try {
-                        execute(sendMessage);
-                    } catch (TelegramApiException e) {
-                        throw new RuntimeException(e);
-                    }
-                });
-
-                userConfig.scheduleNotification(tast, delay, TimeUnit.DAYS.toSeconds(1), TimeUnit.SECONDS);
-            }
-            if (callbackQuery.getData().equals("14:00")) {
-                newTime = LocalTime.of(14, 00);
-                userConfig.setTimeForNotification(newTime);
-                delay = userConfig.calculateDelay();
-                message.setText(CreatingKeyboards.stringWrapper("Актуальний курс буде надіслано о " + newTime.toString()));
-                message.setReplyMarkup(keyboards.createSettingsKeyboard());
-
-                Runnable tast = (() -> {
-                    SendMessage sendMessage = new SendMessage();
-                    sendMessage.setText(currencySort.getExchangeRate(userConfig));
-                    sendMessage.setReplyMarkup(keyboards.createMainKeyboard());
-                    sendMessage.setChatId(chatId);
-
-                    try {
-                        execute(sendMessage);
-                    } catch (TelegramApiException e) {
-                        throw new RuntimeException(e);
-                    }
-                });
-
-                userConfig.scheduleNotification(tast, delay, TimeUnit.DAYS.toSeconds(1), TimeUnit.SECONDS);
-            }
-            if (callbackQuery.getData().equals("15:00")) {
-                newTime = LocalTime.of(15, 00);
-                userConfig.setTimeForNotification(newTime);
-                delay = userConfig.calculateDelay();
-                message.setText(CreatingKeyboards.stringWrapper("Актуальний курс буде надіслано о " + newTime.toString()));
-                message.setReplyMarkup(keyboards.createSettingsKeyboard());
-
-                Runnable tast = (() -> {
-                    SendMessage sendMessage = new SendMessage();
-                    sendMessage.setText(currencySort.getExchangeRate(userConfig));
-                    sendMessage.setReplyMarkup(keyboards.createMainKeyboard());
-                    sendMessage.setChatId(chatId);
-
-                    try {
-                        execute(sendMessage);
-                    } catch (TelegramApiException e) {
-                        throw new RuntimeException(e);
-                    }
-                });
-
-                userConfig.scheduleNotification(tast, delay, TimeUnit.DAYS.toSeconds(1), TimeUnit.SECONDS);
-            }
-
-            if (callbackQuery.getData().equals("16:00")) {
-                newTime = LocalTime.of(16, 00);
-                userConfig.setTimeForNotification(newTime);
-                delay = userConfig.calculateDelay();
-                message.setText(CreatingKeyboards.stringWrapper("Актуальний курс буде надіслано о " + newTime.toString()));
-                message.setReplyMarkup(keyboards.createSettingsKeyboard());
-
-                Runnable tast = (() -> {
-                    SendMessage sendMessage = new SendMessage();
-                    sendMessage.setText(currencySort.getExchangeRate(userConfig));
-                    sendMessage.setReplyMarkup(keyboards.createMainKeyboard());
-                    sendMessage.setChatId(chatId);
-
-                    try {
-                        execute(sendMessage);
-                    } catch (TelegramApiException e) {
-                        throw new RuntimeException(e);
-                    }
-                });
-
-                userConfig.scheduleNotification(tast, delay, TimeUnit.DAYS.toSeconds(1), TimeUnit.SECONDS);
-            }
-            if (callbackQuery.getData().equals("17:00")) {
-                newTime = LocalTime.of(17, 00);
-                userConfig.setTimeForNotification(newTime);
-                delay = userConfig.calculateDelay();
-                message.setText(CreatingKeyboards.stringWrapper("Актуальний курс буде надіслано о " + newTime.toString()));
-                message.setReplyMarkup(keyboards.createSettingsKeyboard());
-
-                Runnable tast = (() -> {
-                    SendMessage sendMessage = new SendMessage();
-                    sendMessage.setText(currencySort.getExchangeRate(userConfig));
-                    sendMessage.setReplyMarkup(keyboards.createMainKeyboard());
-                    sendMessage.setChatId(chatId);
-
-                    try {
-                        execute(sendMessage);
-                    } catch (TelegramApiException e) {
-                        throw new RuntimeException(e);
-                    }
-                });
-
-                userConfig.scheduleNotification(tast, delay, TimeUnit.DAYS.toSeconds(1), TimeUnit.SECONDS);
-            }
-            if (callbackQuery.getData().equals("18:00")) {
-                newTime = LocalTime.of(18, 00);
-                userConfig.setTimeForNotification(newTime);
-                delay = userConfig.calculateDelay();
-                message.setText(CreatingKeyboards.stringWrapper("Актуальний курс буде надіслано о " + newTime.toString()));
-                message.setReplyMarkup(keyboards.createSettingsKeyboard());
-
-                Runnable tast = (() -> {
-                    SendMessage sendMessage = new SendMessage();
-                    sendMessage.setText(currencySort.getExchangeRate(userConfig));
-                    sendMessage.setReplyMarkup(keyboards.createMainKeyboard());
-                    sendMessage.setChatId(chatId);
-
-                    try {
-                        execute(sendMessage);
-                    } catch (TelegramApiException e) {
-                        throw new RuntimeException(e);
-                    }
-                });
-
-                userConfig.scheduleNotification(tast, delay, TimeUnit.DAYS.toSeconds(1), TimeUnit.SECONDS);
-            }
-            if (callbackQuery.getData().equals(TURN_OF_NOTIFICATION)) {
-                if (userConfig.getScheduledFuture() != null) {
-                    userConfig.getScheduledFuture().cancel(true);
-                    message.setText(CreatingKeyboards.stringWrapper("Повідомлення о курсі валют відмінено"));
-                    message.setReplyMarkup(keyboards.createSettingsKeyboard());
-                } else {
-                    message.setText(CreatingKeyboards.stringWrapper("Повідомлення відсутні"));
-                }
-
-            }
-            if (callbackQuery.getData().equals(BACK_TO_MAIN_MENU)) {
-                message.setText(CreatingKeyboards.stringWrapper("Ласкаво просимо. Цей бот допоможе відслідковувати актуальні курси валют"));
-                message.setReplyMarkup(keyboards.createMainKeyboard());
-            }
-
-            try {
-                execute(message);
-            } catch (Exception e) {
-                e.printStackTrace();
             }
         }
 
+
+        switch (callbackQuery.getData()) {
+            case SETTINGS:
+                message.setText(CreatingKeyboards.stringWrapper("Налаштування"));
+                message.setReplyMarkup(keyboards.createSettingsKeyboard());
+                break;
+            case NOTIFICATION_TIME:
+                message.setText(CreatingKeyboards.stringWrapper("Оберіть час для повідомлення"));
+                message.setReplyMarkup(keyboards.createTimeNotificationKeyboard());
+                break;
+            case BANK:
+                message.setText(CreatingKeyboards.stringWrapper("Оберіть банк: "));
+                message.setReplyMarkup(keyboards.bankKeyboard(userConfig));
+                break;
+            case MONO_BANK:
+            case PRIVAT_BANK:
+            case NBU_CALLBACK_DATA:
+                toggleBank(callbackQuery.getData(), userConfig);
+                message.setText(CreatingKeyboards.stringWrapper("Налаштування"));
+                message.setReplyMarkup(keyboards.createSettingsKeyboard());
+                break;
+            case GET_INFO_CALLBACK_DATA:
+                message.setText(currencySort.getExchangeRate(userConfig));
+                message.setReplyMarkup(keyboards.createMainKeyboard());
+                break;
+            case CURRENCIES:
+                message.setText(CreatingKeyboards.stringWrapper("Оберіть валюту"));
+                message.setReplyMarkup(keyboards.createCurrencyKeyboard(userConfig));
+                break;
+            case DOLLAR:
+            case EURO:
+                toggleCurrency(callbackQuery.getData(), userConfig);
+                message.setText(CreatingKeyboards.stringWrapper("Налаштування"));
+                message.setReplyMarkup(keyboards.createSettingsKeyboard());
+                break;
+
+            case "09:00":
+            case "10:00":
+            case "11:00":
+            case "12:00":
+            case "13:00":
+            case "14:00":
+            case "15:00":
+            case "16:00":
+            case "17:00":
+            case "18:00":
+                handleNotificationTime(callbackQuery.getData(), userConfig, message, chatId);
+                break;
+            case TURN_OF_NOTIFICATION:
+                handleTurnOffNotification(userConfig, message);
+                break;
+            case BACK_TO_MAIN_MENU:
+                message.setText(CreatingKeyboards.stringWrapper("Ласкаво просимо. Цей бот допоможе відслідковувати актуальні курси валют"));
+                message.setReplyMarkup(keyboards.createMainKeyboard());
+                break;
+            default:
+                message.setText(CreatingKeyboards.stringWrapper("Невідома команда"));
+                break;
+        }
+
+        try {
+            execute(message);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void handleNotificationTime(String time, UserConfig userConfig, SendMessage message, String chatId) {
+        LocalTime newTime = LocalTime.parse(time);
+        userConfig.setTimeForNotification(newTime);
+        long delay = userConfig.calculateDelay();
+        message.setText(CreatingKeyboards.stringWrapper("Актуальний курс буде надіслано о " + newTime));
+        message.setReplyMarkup(keyboards.createSettingsKeyboard());
+
+        Runnable task = () -> {
+            SendMessage sendMessage = new SendMessage();
+            sendMessage.setText(currencySort.getExchangeRate(userConfig));
+            sendMessage.setReplyMarkup(keyboards.createMainKeyboard());
+            sendMessage.setChatId(chatId);
+
+            try {
+                execute(sendMessage);
+            } catch (TelegramApiException e) {
+                throw new RuntimeException(e);
+            }
+        };
+
+        userConfig.scheduleNotification(task, delay, TimeUnit.DAYS.toSeconds(1), TimeUnit.SECONDS);
+    }
+
+    private void toggleBank(String bank, UserConfig userConfig) {
+        String bankName = bank.equals(NBU_CALLBACK_DATA) ? CreatingKeyboards.stringWrapper(NBU_BANK) : bank;
+        if (userConfig.getBanks().contains(bankName)) {
+            userConfig.removeBank(bankName);
+        } else {
+            userConfig.addBank(bankName);
+        }
+    }
+
+    private void toggleCurrency(String currency, UserConfig userConfig) {
+        if (userConfig.getCurrentCurrencies().contains(currency)) {
+            userConfig.deleteCurrency(currency);
+        } else {
+            userConfig.addCurrency(currency);
+        }
+    }
+
+
+    private void handleTurnOffNotification(UserConfig userConfig, SendMessage message) {
+        if (userConfig.getScheduledFuture() != null) {
+            userConfig.getScheduledFuture().cancel(true);
+            message.setText(CreatingKeyboards.stringWrapper("Повідомлення о курсі валют відмінено"));
+            message.setReplyMarkup(keyboards.createSettingsKeyboard());
+        } else {
+            message.setText(CreatingKeyboards.stringWrapper("Повідомлення відсутні"));
+            message.setReplyMarkup(keyboards.createCurrencyKeyboard(userConfig));
+        }
     }
 
     @Override
@@ -482,7 +292,7 @@ public class TelegramCurrencyBot extends TelegramLongPollingBot {
         return "6695346541:AAHMVAu5RwQ3adakniu_cFBvGF5wad_f7c8";
     }
 
-    private static boolean IsMessagePresent(Update update) {
+    private static boolean isMessagePresent(Update update) {
         return update.hasMessage() && update.getMessage().hasText();
     }
 }
