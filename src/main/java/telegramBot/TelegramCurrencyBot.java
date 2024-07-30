@@ -274,7 +274,7 @@ public class TelegramCurrencyBot extends TelegramLongPollingBot {
     private void handleTurnOffNotification(UserConfig userConfig, SendMessage message) {
         if (userConfig.getScheduledFuture() != null) {
             userConfig.getScheduledFuture().cancel(true);
-            message.setText(CreatingKeyboards.stringWrapper("Повідомлення о курсі валют відмінено"));
+            message.setText(CreatingKeyboards.stringWrapper("Повідомлення про актуальні курси валют відмінено"));
             message.setReplyMarkup(keyboards.createSettingsKeyboard());
         } else {
             message.setText(CreatingKeyboards.stringWrapper("Повідомлення відсутні"));
@@ -284,12 +284,12 @@ public class TelegramCurrencyBot extends TelegramLongPollingBot {
 
     @Override
     public String getBotUsername() {
-        return null;
+        return "tima_viver_bot";
     }
 
     @Override
     public String getBotToken() {
-        return null;
+        return "7269800721:AAHGDf7xiUiFuDDbaxVM2Fl-9-wV849nS6U";
     }
 
     private static boolean isMessagePresent(Update update) {
