@@ -218,9 +218,7 @@ public class TelegramCurrencyBot extends TelegramLongPollingBot {
                 message.setText(CreatingKeyboards.stringWrapper("Ласкаво просимо. Цей бот допоможе відслідковувати актуальні курси валют"));
                 message.setReplyMarkup(keyboards.createMainKeyboard());
                 break;
-            default:
-                message.setText(CreatingKeyboards.stringWrapper("Невідома команда"));
-                break;
+
         }
 
         try {
@@ -284,12 +282,12 @@ public class TelegramCurrencyBot extends TelegramLongPollingBot {
 
     @Override
     public String getBotUsername() {
-        return "tima_viver_bot";
+        return null;
     }
 
     @Override
     public String getBotToken() {
-        return "7269800721:AAHGDf7xiUiFuDDbaxVM2Fl-9-wV849nS6U";
+        return null;
     }
 
     private static boolean isMessagePresent(Update update) {
