@@ -218,9 +218,7 @@ public class TelegramCurrencyBot extends TelegramLongPollingBot {
                 message.setText(CreatingKeyboards.stringWrapper("Ласкаво просимо. Цей бот допоможе відслідковувати актуальні курси валют"));
                 message.setReplyMarkup(keyboards.createMainKeyboard());
                 break;
-            default:
-                message.setText(CreatingKeyboards.stringWrapper("Невідома команда"));
-                break;
+
         }
 
         try {
@@ -274,7 +272,7 @@ public class TelegramCurrencyBot extends TelegramLongPollingBot {
     private void handleTurnOffNotification(UserConfig userConfig, SendMessage message) {
         if (userConfig.getScheduledFuture() != null) {
             userConfig.getScheduledFuture().cancel(true);
-            message.setText(CreatingKeyboards.stringWrapper("Повідомлення о курсі валют відмінено"));
+            message.setText(CreatingKeyboards.stringWrapper("Повідомлення про актуальні курси валют відмінено"));
             message.setReplyMarkup(keyboards.createSettingsKeyboard());
         } else {
             message.setText(CreatingKeyboards.stringWrapper("Повідомлення відсутні"));

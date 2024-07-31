@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-import static сonstants.ConstantForDevProcess.*;
 
 public class CreatingKeyboards {
     public ReplyKeyboard createMainKeyboard() {
@@ -119,149 +118,84 @@ public class CreatingKeyboards {
 
     }
 
-
     public InlineKeyboardMarkup createSettingsKeyboard() {
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
-
-        InlineKeyboardButton digitsAfterDecimalButton = new InlineKeyboardButton();
-        digitsAfterDecimalButton.setText(stringWrapper("Кількість знаків після коми"));
-        digitsAfterDecimalButton.setCallbackData(ConstantForDevProcess.DIGITS_AFTER_DECIMAL_CALLBACK_DATA);
-
-        InlineKeyboardButton bankButton = new InlineKeyboardButton();
-        bankButton.setText(stringWrapper("Банк"));
-        bankButton.setCallbackData(BANK);
-
-        InlineKeyboardButton currenciesButton = new InlineKeyboardButton();
-        currenciesButton.setText(stringWrapper("Валюти"));
-        currenciesButton.setCallbackData("Currencies");
-
-        InlineKeyboardButton notificationTimeButton = new InlineKeyboardButton();
-        notificationTimeButton.setText(stringWrapper("Час оповіщень"));
-        notificationTimeButton.setCallbackData("NotificationTime");
-
-        InlineKeyboardButton backButton = new InlineKeyboardButton();
-        backButton.setText(stringWrapper("Назад"));
-        backButton.setCallbackData("BackToMainMenu");
-
-        List<InlineKeyboardButton> digitsRow = new ArrayList<>();
-        digitsRow.add(digitsAfterDecimalButton);
-
-        List<InlineKeyboardButton> bankRow = new ArrayList<>();
-        bankRow.add(bankButton);
-
-        List<InlineKeyboardButton> currenciesRow = new ArrayList<>();
-        currenciesRow.add(currenciesButton);
-
-        List<InlineKeyboardButton> notificationRow = new ArrayList<>();
-        notificationRow.add(notificationTimeButton);
-
-        List<InlineKeyboardButton> backRow = new ArrayList<>();
-        backRow.add(backButton);
-
         List<List<InlineKeyboardButton>> allButtons = new ArrayList<>();
-        allButtons.add(digitsRow);
-        allButtons.add(bankRow);
-        allButtons.add(currenciesRow);
-        allButtons.add(notificationRow);
-        allButtons.add(backRow);
+
+        allButtons.add(createButtonRow("Кількість знаків після коми", ConstantForDevProcess.DIGITS_AFTER_DECIMAL_CALLBACK_DATA));
+        allButtons.add(createButtonRow("Банк", ConstantForDevProcess.BANK));
+        allButtons.add(createButtonRow("Валюти", "Currencies"));
+        allButtons.add(createButtonRow("Час оповіщень", "NotificationTime"));
+        allButtons.add(createButtonRow("Назад", "BackToMainMenu"));
 
         inlineKeyboardMarkup.setKeyboard(allButtons);
         return inlineKeyboardMarkup;
     }
+
 
     public InlineKeyboardMarkup bankKeyboard(UserConfig userConfig) {
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
-
-        InlineKeyboardButton monoBank = new InlineKeyboardButton();
-        monoBank.setText(isContain(userConfig.getBanks(), MONO_BANK));
-        monoBank.setCallbackData(MONO_BANK);
-
-        InlineKeyboardButton privatBank = new InlineKeyboardButton();
-        privatBank.setText(isContain(userConfig.getBanks(), PRIVAT_BANK));
-        privatBank.setCallbackData(PRIVAT_BANK);
-
-        InlineKeyboardButton nbuBank = new InlineKeyboardButton();
-        nbuBank.setText(isContain(userConfig.getBanks(), stringWrapper(NBU_BANK)));
-        nbuBank.setCallbackData(NBU_CALLBACK_DATA);
-
-        List<InlineKeyboardButton> monoRow = new ArrayList<>();
-        monoRow.add(monoBank);
-
-        List<InlineKeyboardButton> privatRow = new ArrayList<>();
-        privatRow.add(privatBank);
-
-        List<InlineKeyboardButton> nbuRow = new ArrayList<>();
-        nbuRow.add(nbuBank);
-
         List<List<InlineKeyboardButton>> allButtons = new ArrayList<>();
-        allButtons.add(monoRow);
-        allButtons.add(privatRow);
-        allButtons.add(nbuRow);
+
+        allButtons.add(createButtonRow(isContain(userConfig.getBanks(), ConstantForDevProcess.MONO_BANK), ConstantForDevProcess.MONO_BANK));
+        allButtons.add(createButtonRow(isContain(userConfig.getBanks(), ConstantForDevProcess.PRIVAT_BANK), ConstantForDevProcess.PRIVAT_BANK));
+        allButtons.add(createButtonRow(isContain(userConfig.getBanks(), ConstantForDevProcess.NBU_BANK), ConstantForDevProcess.NBU_CALLBACK_DATA));
 
         inlineKeyboardMarkup.setKeyboard(allButtons);
         return inlineKeyboardMarkup;
     }
 
+
     public InlineKeyboardMarkup createDecimalPlacesKeyboard(UserConfig userConfig) {
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
+        List<List<InlineKeyboardButton>> allButtons = new ArrayList<>();
 
-        InlineKeyboardButton digitsAfterDecimalButtonTwo = new InlineKeyboardButton();
-        digitsAfterDecimalButtonTwo.setText(isContain(userConfig.getDecimalPlaces(), "2"));
-        digitsAfterDecimalButtonTwo.setCallbackData(DIGITS_AFTER_DECIMAL2);
+        allButtons.add(createButtonRow(isContain(userConfig.getDecimalPlaces(), "2"), ConstantForDevProcess.DIGITS_AFTER_DECIMAL2));
+        allButtons.add(createButtonRow(isContain(userConfig.getDecimalPlaces(), "3"), ConstantForDevProcess.DIGITS_AFTER_DECIMAL3));
+        allButtons.add(createButtonRow(isContain(userConfig.getDecimalPlaces(), "4"), ConstantForDevProcess.DIGITS_AFTER_DECIMAL4));
 
-        InlineKeyboardButton digitsAfterDecimalButtonThree = new InlineKeyboardButton();
-        digitsAfterDecimalButtonThree.setText(isContain(userConfig.getDecimalPlaces(), "3"));
-        digitsAfterDecimalButtonThree.setCallbackData(DIGITS_AFTER_DECIMAL3);
-
-        InlineKeyboardButton digitsAfterDecimalButtonFour = new InlineKeyboardButton();
-        digitsAfterDecimalButtonFour.setText(isContain(userConfig.getDecimalPlaces(), "4"));
-        digitsAfterDecimalButtonFour.setCallbackData(DIGITS_AFTER_DECIMAL4);
-
-        List<InlineKeyboardButton> buttonTwo = new ArrayList<>();
-        buttonTwo.add(digitsAfterDecimalButtonTwo);
-        List<InlineKeyboardButton> buttonThree = new ArrayList<>();
-        buttonThree.add(digitsAfterDecimalButtonThree);
-        List<InlineKeyboardButton> buttonFour = new ArrayList<>();
-        buttonFour.add(digitsAfterDecimalButtonFour);
-
-        List<List<InlineKeyboardButton>> allButton = new ArrayList<>();
-        allButton.add(buttonTwo);
-        allButton.add(buttonThree);
-        allButton.add(buttonFour);
-
-        inlineKeyboardMarkup.setKeyboard(allButton);
+        inlineKeyboardMarkup.setKeyboard(allButtons);
         return inlineKeyboardMarkup;
     }
 
+
     public InlineKeyboardMarkup createCurrencyKeyboard(UserConfig userConfig) {
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
-
-        InlineKeyboardButton dollar = new InlineKeyboardButton();
-        InlineKeyboardButton euro = new InlineKeyboardButton();
-
-        dollar.setText(isContain(userConfig.getCurrentCurrencies(), DOLLAR));
-        dollar.setCallbackData(DOLLAR);
-
-        euro.setText(isContain(userConfig.getCurrentCurrencies(), EURO));
-        euro.setCallbackData(EURO);
-
         List<List<InlineKeyboardButton>> rows = new ArrayList<>();
-        List<InlineKeyboardButton> row = new ArrayList<>();
 
-        row.add(dollar);
-        row.add(euro);
-
-        rows.add(row);
+        rows.add(createButtonRow(isContain(userConfig.getCurrentCurrencies(), ConstantForDevProcess.DOLLAR), ConstantForDevProcess.DOLLAR, isContain(userConfig.getCurrentCurrencies(), ConstantForDevProcess.EURO), ConstantForDevProcess.EURO));
 
         inlineKeyboardMarkup.setKeyboard(rows);
-
         return inlineKeyboardMarkup;
+    }
 
+
+    private List<InlineKeyboardButton> createButtonRow(String text1, String callbackData1) {
+        InlineKeyboardButton button = createButton(text1, callbackData1);
+        List<InlineKeyboardButton> row = new ArrayList<>();
+        row.add(button);
+        return row;
+    }
+
+    private List<InlineKeyboardButton> createButtonRow(String text1, String callbackData1, String text2, String callbackData2) {
+        InlineKeyboardButton button1 = createButton(text1, callbackData1);
+        InlineKeyboardButton button2 = createButton(text2, callbackData2);
+        List<InlineKeyboardButton> row = new ArrayList<>();
+        row.add(button1);
+        row.add(button2);
+        return row;
+    }
+
+    private InlineKeyboardButton createButton(String text, String callbackData) {
+        InlineKeyboardButton button = new InlineKeyboardButton();
+        button.setText(stringWrapper(text));
+        button.setCallbackData(callbackData);
+        return button;
     }
 
 
     public static String stringWrapper(String str) {
-        String result = "";
+        String result = " ";
         try {
             result = new String(str.getBytes(), "UTF-8");
         } catch (UnsupportedEncodingException e) {
@@ -270,13 +204,15 @@ public class CreatingKeyboards {
         return result;
     }
 
-
     public static String isContain(List<String> bankList, String word) {
         if (bankList.contains(word)) {
-            return stringWrapper("✅") + word;
+            return "✅" + word;
         }
         return word;
     }
+
+
+
 
 
 }
